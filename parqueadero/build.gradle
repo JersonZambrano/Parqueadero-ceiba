@@ -44,5 +44,5 @@ test {
 	}
 	reports.junitXml.destination = file("jacoco/test-results")
 }
-jacocoTestReport.depensOn(test)
+jacocoTestReport.dependsOn(test)
 
