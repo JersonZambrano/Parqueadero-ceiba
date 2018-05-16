@@ -3,8 +3,6 @@
  */
 package com.parqueadero.parqueaderoPostgres.services;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
