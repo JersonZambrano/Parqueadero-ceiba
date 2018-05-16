@@ -3,15 +3,20 @@
  */
 package com.parqueadero.modelo;
 
+import javax.validation.Valid;
+
+import org.springframework.lang.NonNull;
+
 import com.parqueadero.enumeraciones.TipoVehiculoEnum;
 
 /**
  * @author jerson.zambrano
  *
  */
+@Valid
 public  class Vehiculo {
 
-	
+	@NonNull
 	private String placa;
 	
 	private Double Cilindraje;

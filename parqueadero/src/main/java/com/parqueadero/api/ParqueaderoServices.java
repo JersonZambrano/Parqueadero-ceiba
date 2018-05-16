@@ -6,6 +6,7 @@ package com.parqueadero.api;
 import java.util.Map;
 
 import javax.persistence.NoResultException;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,35 +25,35 @@ import com.parqueadero.services.ParqueaderoBusniess;
  *
  */
 @RestController
-//@RequestMapping(value = "/error")
 public class ParqueaderoServices {
 
 	@Autowired
 	ParqueaderoBusniess parqueaderoService;
+	
+	@Valid
     @RequestMapping(value="/registrarIngreso", method=RequestMethod.POST)
-    public Map<String, Boolean> registrarIngreso(@RequestBody Vehiculo vehiculo) {
+    public Map<String, Boolean> registrarIngreso(@Valid @RequestBody Vehiculo vehiculo) {
     	
-    	Vehiculo v= FactoriaVehiculo.getFactura(vehiculo.getTipoVehiculo());
+    	//FactoriaVehiculo.getFactura(vehiculo);
 		Map<String, Boolean> validaciones=parqueaderoService.validarEntrada(vehiculo);
 		if(!validaciones.get(ConstantesParametro.VALIDACION_DISPONIBILIDAD) || !validaciones.get(ConstantesParametro.VALIDACION_DOMINGO_LUNES)){
 			return validaciones;
 		}
 		parqueaderoService.registraringreso(vehiculo);
     	return validaciones;
-    };
+    }
     
     @RequestMapping(value="/registrarSalida", method=RequestMethod.POST)
     public Double registrarSalida(@RequestBody Vehiculo vehiculo) {
     	try {
-    		Double valorFacturado=parqueaderoService.registrarSalida(vehiculo.getPlaca());
-    		return valorFacturado;
+    		return parqueaderoService.registrarSalida(vehiculo.getPlaca());
 		} catch (NoResultException e) {
 			return null;
 		}
-    };
+    }
     
     @RequestMapping(value="/consultarVehiculos", method=RequestMethod.GET)
     public String consultarVehiculo() {
     	return "por fin";
-    };
+    }
 }

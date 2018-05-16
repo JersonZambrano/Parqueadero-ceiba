@@ -21,4 +21,47 @@ public enum TipoVehiculoEnum {
 		this.valorHora = valorHora;
 		this.valorDia = valorDia;
 	}
+
+	/**
+	 * @return the descripcion
+	 */
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	/**
+	 * @param descripcion the descripcion to set
+	 */
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	/**
+	 * @return the valorHora
+	 */
+	public double getValorHora() {
+		return valorHora;
+	}
+
+	/**
+	 * @param valorHora the valorHora to set
+	 */
+	public void setValorHora(double valorHora) {
+		this.valorHora = valorHora;
+	}
+
+	/**
+	 * @return the valorDia
+	 */
+	public double getValorDia() {
+		return valorDia;
+	}
+
+	/**
+	 * @param valorDia the valorDia to set
+	 */
+	public void setValorDia(double valorDia) {
+		this.valorDia = valorDia;
+	}
+	
 }
