@@ -4,6 +4,8 @@
 package com.parqueadero.parqueaderoPostgres.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.parqueadero.parqueaderoPostgres.modelo.Parametro;
 
@@ -13,4 +15,6 @@ import com.parqueadero.parqueaderoPostgres.modelo.Parametro;
  */
 public interface ParametroRepository  extends JpaRepository<Parametro, Long> {
 
+	 @Query("SELECT p.valor FROM Parametro p  WHERE p.descripcion=(:parametro)")
+	 String consultarParametro(@Param("parametro") String parametro);
 }

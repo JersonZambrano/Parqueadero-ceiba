@@ -9,12 +9,12 @@ import com.parqueadero.parqueaderoPostgres.Enumeraciones.TipoVehiculoEnum;
  * @author jerson.zambrano
  *
  */
-public abstract class Vehiculo {
+public  class Vehiculo {
 
 	
 	private String placa;
 	
-	//private Double Cilindraje;
+	private Double Cilindraje;
 	
 	private TipoVehiculoEnum tipoVehiculo;
 
@@ -36,19 +36,19 @@ public abstract class Vehiculo {
 		this.placa = placa;
 	}
 
-//	/**
-//	 * @return the cilindraje
-//	 */
-//	public Double getCilindraje() {
-//		return Cilindraje;
-//	}
-//
-//	/**
-//	 * @param cilindraje the cilindraje to set
-//	 */
-//	public void setCilindraje(Double cilindraje) {
-//		Cilindraje = cilindraje;
-//	}
+	/**
+	 * @return the cilindraje
+	 */
+	public Double getCilindraje() {
+		return Cilindraje;
+	}
+
+	/**
+	 * @param cilindraje the cilindraje to set
+	 */
+	public void setCilindraje(Double cilindraje) {
+		Cilindraje = cilindraje;
+	}
 
 	public TipoVehiculoEnum getTipoVehiculo() {
 		return tipoVehiculo;
@@ -57,7 +57,12 @@ public abstract class Vehiculo {
 	public void setTipoVehiculo(TipoVehiculoEnum tipoVehiculo) {
 		this.tipoVehiculo = tipoVehiculo;
 	}
-	
-	
-	
+
+	public RegistroParqueadero converToEntity() {
+		RegistroParqueadero reg = new RegistroParqueadero();
+		reg.setCilindraje(this.Cilindraje);
+		reg.setPlaca(this.placa);
+		reg.setTipoVehiculo(this.tipoVehiculo);
+		return reg;
+	}
 }
