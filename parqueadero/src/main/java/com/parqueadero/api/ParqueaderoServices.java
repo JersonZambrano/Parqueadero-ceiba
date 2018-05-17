@@ -3,8 +3,6 @@
  */
 package com.parqueadero.api;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-
 import java.util.Map;
 import java.util.logging.Logger;
 
