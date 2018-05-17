@@ -1,0 +1,24 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="formulario-registro">
+  <h1 class="col-ms col-sm-12">Parqueadero Ceiba</h1>
+  <dt>
+    <label> Placa Vehiculo:</label>
+  </dt>
+  <div>
+    <input (ngModel)="vehiculo.placa" placeholder="Ingrese placa" class="form-control">
+  </div>
+  <hr>
+  <dt>
+    <label> Tipo de Vehiculo: </label>
+  </dt>
+  <div>
+    <input type="text" (ngModel)="vehiculo.tipoVehiculo" placeholder="Ingrese tipo vehiculo" class="form-control">
+  </div>
+  <hr>
+
+  <br>
+  <button class="btn btn-primary" (click)="registrarVehiculo()"> Registrar Vehiculo </button>
+
+</div>
+
+
