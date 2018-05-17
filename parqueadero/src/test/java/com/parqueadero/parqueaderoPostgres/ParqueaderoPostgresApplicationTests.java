@@ -23,46 +23,74 @@ import com.parqueadero.services.ParqueaderoBusniess;
 @SpringBootTest
 public class ParqueaderoPostgresApplicationTests {
 
-    @Autowired
-    ParqueaderoServices parqueaderoService;
-    
-    @Autowired
-    ParqueaderoBusniess pBusniess;
-	
+	@Autowired
+	ParqueaderoServices parqueaderoService;
+
+	@Autowired
+	ParqueaderoBusniess pBusniess;
+
 	@Test
 	public void contextLoads() {
 	}
-	
+
 	@Test
-	public void registrarIngresoTest() {
-		String placa ="MSD123";
+	public void registrarIngresoIntegracionTest() {
+		String placa = "MSD123";
 		pBusniess.eliminarRegistro(placa);
 		Vehiculo v = new Vehiculo();
 		v.setPlaca(placa);
 		v.setTipoVehiculo(TipoVehiculoEnum.MOTO);
 		v.setCilindraje(new Double(501));
-		Map<String, Boolean> validaciones =parqueaderoService.registrarIngreso(v);
+		Map<String, Boolean> validaciones = parqueaderoService.registrarIngreso(v);
 		System.out.println(validaciones);
 		assertNotNull(parqueaderoService.consultarVehiculo(v.getPlaca()));
 	}
-	
+
 	@Test
-	public void validarDiaDomingoLunes() {
-	assertFalse(false);
+	public void validarDiaDomingoLunesTest() {
+		assertFalse(false);
 	}
-	
+
 	@Test
 	public void sacarVehiculoInexistente() {
-		String placa ="ASD123";
+		String placa = "ASD123";
 		pBusniess.eliminarRegistro(placa);
 		try {
-			pBusniess.registrarSalida(placa);			
+			pBusniess.registrarSalida(placa);
 			assertTrue(false);
 		} catch (NoResultException e) {
 			assertTrue(true);
 		}
-		
 	}
 
+	@Test
+	public void ingresarVehiculoRegistradoTest() {
+		String placa = "BSD123";
+		pBusniess.eliminarRegistro(placa);
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.setPlaca(placa);
+		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
+		pBusniess.registraringreso(vehiculo);
+		assertNotNull(parqueaderoService.consultarVehiculo(placa));
+	}
+
+	@Test
+	public void buscarVehiculoTest() {
+
+		String placa = "BSD123";
+
+		if (parqueaderoService.consultarVehiculo(placa) != null) {
+			assertTrue(true);
+		}else{
+			
+		}
+
+		pBusniess.eliminarRegistro(placa);
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.setPlaca(placa);
+		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
+		pBusniess.registraringreso(vehiculo);
+		assertNotNull(parqueaderoService.consultarVehiculo(placa));
+	}
 
 }
