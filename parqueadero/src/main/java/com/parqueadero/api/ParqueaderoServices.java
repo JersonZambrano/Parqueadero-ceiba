@@ -3,12 +3,16 @@
  */
 package com.parqueadero.api;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.persistence.NoResultException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +24,7 @@ import com.parqueadero.modelo.Vehiculo;
 import com.parqueadero.services.ParqueaderoBusniess;
 
 
+
 /**
  * @author jerson.zambrano
  *
@@ -27,8 +32,10 @@ import com.parqueadero.services.ParqueaderoBusniess;
 @RestController
 public class ParqueaderoServices {
 
+	Logger logger = Logger.getLogger(ParqueaderoServices.class.getName());
+	
 	@Autowired
-	ParqueaderoBusniess parqueaderoService;
+	private ParqueaderoBusniess parqueaderoService;
 	
 	@Valid
     @RequestMapping(value="/registrarIngreso", method=RequestMethod.POST)
@@ -45,6 +52,7 @@ public class ParqueaderoServices {
     
     @RequestMapping(value="/registrarSalida", method=RequestMethod.POST)
     public Double registrarSalida(@RequestBody Vehiculo vehiculo) {
+    	logger.warning("Error----------"+parqueaderoService);
     	try {
     		return parqueaderoService.registrarSalida(vehiculo.getPlaca());
 		} catch (NoResultException e) {
@@ -52,8 +60,8 @@ public class ParqueaderoServices {
 		}
     }
     
-    @RequestMapping(value="/consultarVehiculos", method=RequestMethod.GET)
-    public String consultarVehiculo() {
-    	return "por fin";
+    @RequestMapping(value="/consultarVehiculos/{placa}", method=RequestMethod.GET)
+    public Vehiculo consultarVehiculo(@PathVariable("placa") String placa) {
+    	return parqueaderoService.buscarVehiculo(placa);
     }
 }

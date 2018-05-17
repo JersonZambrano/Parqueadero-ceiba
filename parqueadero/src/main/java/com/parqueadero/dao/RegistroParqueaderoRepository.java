@@ -9,7 +9,7 @@ import com.parqueadero.modelo.RegistroParqueadero;
 
 public interface RegistroParqueaderoRepository extends JpaRepository<RegistroParqueadero, Long> {
 
-	@Query("SELECT v FROM RegistroParqueadero v  WHERE v.placa=(:placa)")
+	@Query("SELECT v FROM RegistroParqueadero v  WHERE v.placa=(:placa) AND fechaSalida IS NULL")
 	RegistroParqueadero buscarVehiculoPorPlaca(@Param("placa") String placa);
 
 	@Query("SELECT COUNT(r) FROM RegistroParqueadero r  WHERE r.tipoVehiculo=(:tipoVehiculo) AND r.fechaSalida IS NULL")

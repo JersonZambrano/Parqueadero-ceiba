@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.NoResultException;
+
+import org.hibernate.NonUniqueResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.parqueadero.dao.ParametroRepository;
@@ -32,19 +34,29 @@ public class ParqueaderoBusniess {
 	public static final String LLAVE_VALOR_ADICIONAL = "VALOR_ADICIONAL";
 
 	@Autowired
-	ParametroRepository daoParametro;
+	private ParametroRepository daoParametro;
 
 	@Autowired
-	RegistroParqueaderoRepository daoRegistro;
+	private RegistroParqueaderoRepository daoRegistro;
 
 	/**
 	 * 
 	 * @param placa
 	 * @return
 	 */
-	public Vehiculo buscarVehiculoActivo(String placa) {
-		// return daoRegistro.buscarVehiculoPorPlaca(placa);
-		return null;
+	public Vehiculo buscarVehiculo(String placa) {
+		try {
+
+			RegistroParqueadero reg = daoRegistro.buscarVehiculoPorPlaca(placa);
+			if (reg != null) {
+				Vehiculo v = new Vehiculo();
+				v.entityToVehiculo(reg);
+				return v;
+			}
+			return null;
+		} catch (NonUniqueResultException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -67,7 +79,7 @@ public class ParqueaderoBusniess {
 	 */
 	public Map<String, Boolean> validarEntrada(Vehiculo v) {
 
-		Map<String, Boolean> validaciones = new HashMap<String, Boolean>();
+		Map<String, Boolean> validaciones = new HashMap<>();
 		validaciones.put(ConstantesParametro.VALIDACION_DOMINGO_LUNES, diaPermitidoIngresar(v.getPlaca()));
 		validaciones.put(ConstantesParametro.VALIDACION_DISPONIBILIDAD, hayCuposParqueadero(v));
 
@@ -129,7 +141,7 @@ public class ParqueaderoBusniess {
 	 * @return
 	 */
 	public Map<String, Integer> calcularDiasYHoras(Date fechaIngreso, TipoVehiculoEnum tipoVehiculo) {
-		Map<String, Integer> calculoDiaHora = new HashMap<String, Integer>();
+		Map<String, Integer> calculoDiaHora = new HashMap<>();
 		int diasLiquidar = 0;
 		int horasLiquidar = 0;
 		double horasTotal = Math.ceil((new Double(new Date().getTime() - fechaIngreso.getTime())) / HORAS_EPOCH);
@@ -142,5 +154,18 @@ public class ParqueaderoBusniess {
 		calculoDiaHora.put(LLAVE_DIA, diasLiquidar);
 		calculoDiaHora.put(LLAVE_HORA, horasLiquidar);
 		return calculoDiaHora;
+	}
+
+	public Boolean eliminarRegistro(String placa) {
+		try {
+			RegistroParqueadero reg = daoRegistro.buscarVehiculoPorPlaca(placa);
+			if (reg == null) {
+				return false;
+			}
+			daoRegistro.delete(reg);
+			return true;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }

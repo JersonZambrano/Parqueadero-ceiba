@@ -3,6 +3,8 @@
  */
 package com.parqueadero.modelo;
 
+import java.util.Date;
+
 import javax.validation.Valid;
 
 import org.springframework.lang.NonNull;
@@ -19,9 +21,11 @@ public  class Vehiculo {
 	@NonNull
 	private String placa;
 	
-	private Double Cilindraje;
+	private Double cilindraje;
 	
 	private TipoVehiculoEnum tipoVehiculo;
+	
+	private Date fechaIngreso;
 
 	
 	public Vehiculo() {
@@ -45,14 +49,14 @@ public  class Vehiculo {
 	 * @return the cilindraje
 	 */
 	public Double getCilindraje() {
-		return Cilindraje;
+		return cilindraje;
 	}
 
 	/**
 	 * @param cilindraje the cilindraje to set
 	 */
 	public void setCilindraje(Double cilindraje) {
-		Cilindraje = cilindraje;
+		this.cilindraje = cilindraje;
 	}
 
 	public TipoVehiculoEnum getTipoVehiculo() {
@@ -63,11 +67,40 @@ public  class Vehiculo {
 		this.tipoVehiculo = tipoVehiculo;
 	}
 
+	/**
+	 * @return the fechaIngreso
+	 */
+	public Date getFechaIngreso() {
+		return fechaIngreso;
+	}
+
+	/**
+	 * @param fechaIngreso the fechaIngreso to set
+	 */
+	public void setFechaIngreso(Date fechaIngreso) {
+		this.fechaIngreso = fechaIngreso;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public RegistroParqueadero converToEntity() {
 		RegistroParqueadero reg = new RegistroParqueadero();
-		reg.setCilindraje(this.Cilindraje);
+		reg.setCilindraje(this.cilindraje);
 		reg.setPlaca(this.placa);
 		reg.setTipoVehiculo(this.tipoVehiculo);
 		return reg;
+	}
+	
+	/**
+	 * 
+	 * @param reg
+	 */
+	public void entityToVehiculo(RegistroParqueadero reg) {
+		this.placa= reg.getPlaca();
+		this.cilindraje = reg.getCilindraje();
+		this.fechaIngreso = reg.getFechaIngreso();
+		this.tipoVehiculo = reg.getTipoVehiculo();
 	}
 }
