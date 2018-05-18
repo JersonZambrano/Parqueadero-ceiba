@@ -6,10 +6,12 @@ import { HttpModule } from '@angular/http';
 //import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
+import { RegistrarParqueaderoComponent } from './registrar-parqueadero/registrar-parqueadero.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    RegistrarParqueaderoComponent
   ],
   imports: [
     BrowserModule,

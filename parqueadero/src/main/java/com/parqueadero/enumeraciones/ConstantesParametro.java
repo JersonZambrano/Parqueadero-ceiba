@@ -29,6 +29,7 @@ public final class ConstantesParametro {
 	
 	public static final String VALIDACION_DOMINGO_LUNES = "VALIDACION_DOMINGO_LUNES";
 	public static final String VALIDACION_DISPONIBILIDAD = "VALIDACION_DISPONIBILIDAD";
+	public static final String VALIDACION_YA_REGISTRADO = "VALIDACION_YA_REGISTRADO";
 
 	/**
 	 * 

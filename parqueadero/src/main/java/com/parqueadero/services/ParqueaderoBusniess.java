@@ -82,8 +82,12 @@ public class ParqueaderoBusniess {
 		Map<String, Boolean> validaciones = new HashMap<>();
 		validaciones.put(ConstantesParametro.VALIDACION_DOMINGO_LUNES, diaPermitidoIngresar(v.getPlaca()));
 		validaciones.put(ConstantesParametro.VALIDACION_DISPONIBILIDAD, hayCuposParqueadero(v));
-
+		validaciones.put(ConstantesParametro.VALIDACION_YA_REGISTRADO, vehiculoNoRegistrado(v));
 		return validaciones;
+	}
+
+	private Boolean vehiculoNoRegistrado(Vehiculo v) {
+		return buscarVehiculo(v.getPlaca()) == null ? true : false;
 	}
 
 	/**
@@ -147,7 +151,7 @@ public class ParqueaderoBusniess {
 		double horasTotal = Math.ceil((new Double(new Date().getTime() - fechaIngreso.getTime())) / HORAS_EPOCH);
 		diasLiquidar = (int) Math.floor(horasTotal / HORAS_DEL_DIA);
 		horasLiquidar = (int) (((horasTotal / HORAS_DEL_DIA) - diasLiquidar) * HORAS_DEL_DIA);
-		if (TipoVehiculoEnum.CARRO.equals(tipoVehiculo) && horasLiquidar > HORAS_A_DIAS) {
+		if (horasLiquidar > HORAS_A_DIAS) {
 			horasLiquidar = 0;
 			diasLiquidar++;
 		}
