@@ -22,8 +22,8 @@ public final class ConstantesParametro {
 	public static final double VALOR_DIA_CARRO = 8000;
 	public static final double VALOR_DIA_MOTO = 4000;
 	public static final double CILINDRAJE_MAYOR = 500;
-	public static final Long CAPACIDAD_CARROS = 10L;
-	public static final Long CAPACIDAD_MOTOS = 20L;
+	public static final Long CAPACIDAD_CARROS = 20L;
+	public static final Long CAPACIDAD_MOTOS = 10L;
 	public static final double VALOR_ADICIONAL_MAYOR_CILINDRAJE = 2000;
 	
 	

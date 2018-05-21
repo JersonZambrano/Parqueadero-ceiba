@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.NoResultException;
+import javax.swing.plaf.basic.BasicTreeUI.TreeHomeAction;
 
 import org.hibernate.NonUniqueResultException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,6 @@ public class ParqueaderoBusniess {
 	 * @return
 	 */
 	public Vehiculo buscarVehiculo(String placa) {
-		System.out.println("entra en el buscar vehiculo---------------");
 		try {
 			RegistroParqueadero reg = daoRegistro.buscarVehiculoPorPlaca(placa);
 			if (reg != null) {
@@ -121,18 +121,12 @@ public class ParqueaderoBusniess {
 	/**
 	 * 
 	 * @param vehiculo
+	 * @throws Exception
 	 */
 	public void registraringreso(Vehiculo vehiculo) {
-		try {
-			RegistroParqueadero registro = vehiculo.converToEntity();
-			registro.setFechaIngreso(new Date());
-			daoRegistro.saveAndFlush(registro);
-			System.out.println("EXITO EL INGRESO--------------------");
-
-		} catch (Exception e) {
-			System.out.println("Excepcion--------------------");
-			System.out.println(e);
-		}
+		RegistroParqueadero registro = vehiculo.converToEntity();
+		registro.setFechaIngreso(new Date());
+		daoRegistro.saveAndFlush(registro);
 	}
 
 	/**
@@ -152,7 +146,7 @@ public class ParqueaderoBusniess {
 				&& reg.getCilindraje() > ConstantesParametro.CILINDRAJE_MAYOR) {
 			valorAdicional = ConstantesParametro.VALOR_ADICIONAL_MAYOR_CILINDRAJE;
 		}
-		Map<String, Integer> calculoDiaHora = calcularDiasYHoras(reg.getFechaIngreso(), reg.getTipoVehiculo());
+		Map<String, Integer> calculoDiaHora = calcularDiasYHoras(reg.getFechaIngreso());
 		double precioFacturado = calculoDiaHora.get(LLAVE_HORA) * (reg.getTipoVehiculo().getValorHora())
 				+ calculoDiaHora.get(LLAVE_DIA) * (reg.getTipoVehiculo().getValorDia()) + valorAdicional;
 		reg.setValorTotal(precioFacturado);
@@ -166,13 +160,13 @@ public class ParqueaderoBusniess {
 	 * @param tipoVehiculo
 	 * @return
 	 */
-	public Map<String, Integer> calcularDiasYHoras(Date fechaIngreso, TipoVehiculoEnum tipoVehiculo) {
+	public Map<String, Integer> calcularDiasYHoras(Date fechaIngreso) {
 		Map<String, Integer> calculoDiaHora = new HashMap<>();
 		int diasLiquidar = 0;
 		int horasLiquidar = 0;
 		double horasTotal = Math.ceil((new Double(new Date().getTime() - fechaIngreso.getTime())) / HORAS_EPOCH);
 		diasLiquidar = (int) Math.floor(horasTotal / HORAS_DEL_DIA);
-		horasLiquidar = (int) (((horasTotal / HORAS_DEL_DIA) - diasLiquidar) * HORAS_DEL_DIA);
+		horasLiquidar = (int) Math.ceil(((horasTotal / HORAS_DEL_DIA) - diasLiquidar) * HORAS_DEL_DIA);
 		if (horasLiquidar > HORAS_A_DIAS) {
 			horasLiquidar = 0;
 			diasLiquidar++;
@@ -180,19 +174,6 @@ public class ParqueaderoBusniess {
 		calculoDiaHora.put(LLAVE_DIA, diasLiquidar);
 		calculoDiaHora.put(LLAVE_HORA, horasLiquidar);
 		return calculoDiaHora;
-	}
-
-	public Boolean eliminarRegistro(String placa) {
-		try {
-			RegistroParqueadero reg = daoRegistro.buscarVehiculoPorPlaca(placa);
-			if (reg == null) {
-				return false;
-			}
-			daoRegistro.delete(reg);
-			return true;
-		} catch (Exception e) {
-			return null;
-		}
 	}
 
 	public List<Vehiculo> consultarTotalRegistros() {
@@ -208,8 +189,8 @@ public class ParqueaderoBusniess {
 		}
 		return listVehiculos;
 	}
-	
-	public void setDaoRegistroRepository (RegistroParqueaderoRepository reg) {
+
+	public void setDaoRegistroRepository(RegistroParqueaderoRepository reg) {
 		daoRegistro = reg;
 	}
 }

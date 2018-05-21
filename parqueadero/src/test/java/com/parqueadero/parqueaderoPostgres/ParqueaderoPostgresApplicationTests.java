@@ -1,5 +1,6 @@
 package com.parqueadero.parqueaderoPostgres;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -8,11 +9,14 @@ import static org.junit.Assert.assertTrue;
 import java.io.Console;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.NoResultException;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -39,25 +43,22 @@ public class ParqueaderoPostgresApplicationTests {
 
 	@Autowired
 	ParqueaderoBusniess pBusniess;
-	
+
 	@Autowired
 	RegistroParqueaderoRepository daoRegistros;
-	
+
 	@InjectMocks
 	ParqueaderoBusniess parqueaderoBusniess;
-	
-	
-	
+
 	@Test
 	public void buscarVehiculoMockTest() {
-		RegistroParqueaderoRepository daoRepo= Mockito.mock(RegistroParqueaderoRepository.class);
+		RegistroParqueaderoRepository daoRepo = Mockito.mock(RegistroParqueaderoRepository.class);
 		RegistroParqueadero v = new RegistroParqueadero();
 		Mockito.doReturn(v).when(daoRepo).buscarVehiculoPorPlaca("DFG123");
 		parqueaderoBusniess.setDaoRegistroRepository(daoRepo);
 		parqueaderoBusniess.buscarVehiculo("DFG123");
-		
+
 		assertNotNull(v);
-		System.out.println("---------------FIN TES--------"+  v);
 	}
 
 	@Test
@@ -151,19 +152,18 @@ public class ParqueaderoPostgresApplicationTests {
 		diasPermitidos.add(now.get(Calendar.DAY_OF_WEEK));
 		assertTrue(pBusniess.diaPermitidoIngresar(placa, diasPermitidos));
 	}
-	
+
 	@Test
 	public void diaNoPermitidoIngresarTest() {
 		String placa = "ASh123";
 		Calendar now = Calendar.getInstance();
 		List<Integer> diasPermitidos = new ArrayList<>();
-		diasPermitidos.add((now.get(Calendar.DAY_OF_WEEK)+1));
+		diasPermitidos.add((now.get(Calendar.DAY_OF_WEEK) + 1));
 		assertFalse(pBusniess.diaPermitidoIngresar(placa, diasPermitidos));
 	}
-	
+
 	@Test
-	public void registrarSalida() {
-		
+	public void registrarSalidaTest() {
 		String placa = "VGA159";
 		daoRegistros.deleteAll();
 		Vehiculo vehiculo = new Vehiculo();
@@ -171,5 +171,83 @@ public class ParqueaderoPostgresApplicationTests {
 		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
 		parqueaderoService.registrarIngreso(vehiculo);
 		assertNotNull(parqueaderoService.registrarSalida(vehiculo));
+	}
+
+	@Test
+	public void registrarSalidaNoExistenteTest() {
+		String placa = "VGA159";
+		daoRegistros.deleteAll();
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.setPlaca(placa);
+		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
+		assertNull(parqueaderoService.registrarSalida(vehiculo));
+	}
+
+	@Test
+	public void hayCuposParqueaderoMotoTest() {
+		daoRegistros.deleteAll();
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.setTipoVehiculo(TipoVehiculoEnum.MOTO);
+		assertTrue(pBusniess.hayCuposParqueadero(vehiculo));
+	}
+
+	@Test
+	public void noHayCuposParqueaderoMotoTest() {
+		daoRegistros.deleteAll();
+		agregarRegistros(10, TipoVehiculoEnum.MOTO);
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.setTipoVehiculo(TipoVehiculoEnum.MOTO);
+		assertFalse(pBusniess.hayCuposParqueadero(vehiculo));
+	}
+
+	@Test
+	public void hayCuposParqueaderoCarroTest() {
+		daoRegistros.deleteAll();
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
+		assertTrue(pBusniess.hayCuposParqueadero(vehiculo));
+	}
+
+	@Test
+	public void noHayCuposParqueaderoCarroTest() {
+		daoRegistros.deleteAll();
+		agregarRegistros(20, TipoVehiculoEnum.CARRO);
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
+		assertFalse(pBusniess.hayCuposParqueadero(vehiculo));
+	}
+
+	@Test
+	public void calcularDiasYHorasTest() {
+		Long horas = pBusniess.HORAS_EPOCH * 26L;
+		Date fechaIngreso = new Date(new Date().getTime() - horas);
+		Map<String, Integer> calculoDiaHora = pBusniess.calcularDiasYHoras(fechaIngreso);
+		assertTrue((calculoDiaHora.get(pBusniess.LLAVE_DIA) == 1) && (calculoDiaHora.get(pBusniess.LLAVE_HORA) == 2));
+	}
+
+	@Test
+	public void consultarTotalRegistrosTest() {
+		daoRegistros.deleteAll();
+		agregarRegistros(12, TipoVehiculoEnum.CARRO);
+		agregarRegistros(8, TipoVehiculoEnum.MOTO);
+		List<Vehiculo> listVehiculos = pBusniess.consultarTotalRegistros();
+		assertTrue(listVehiculos.size() == 20);
+	}
+
+	private void agregarRegistros(int cantidad, TipoVehiculoEnum tipoVehiculo) {
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.setTipoVehiculo(tipoVehiculo);
+		for (int i = 0; i < cantidad; i++) {
+			vehiculo.setPlaca(tipoVehiculo.toString() + i);
+			if (tipoVehiculo.equals(TipoVehiculoEnum.MOTO)) {
+				vehiculo.setCilindraje(new Double(350));
+			}
+			parqueaderoService.registrarIngreso(vehiculo);
+		}
+	}
+
+	@After
+	public void deleteOutputFile() {
+		daoRegistros.deleteAll();
 	}
 }
