@@ -27,6 +27,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.parqueadero.api.ParqueaderoServices;
 import com.parqueadero.dao.RegistroParqueaderoRepository;
+import com.parqueadero.enumeraciones.ConstantesParametro;
 import com.parqueadero.enumeraciones.TipoVehiculoEnum;
 import com.parqueadero.modelo.RegistroParqueadero;
 import com.parqueadero.modelo.Vehiculo;
@@ -226,12 +227,23 @@ public class ParqueaderoPostgresApplicationTests {
 	}
 
 	@Test
-	public void consultarTotalRegistrosTest() {
+	public void consultarTotalRegistrosServicesTest() {
 		daoRegistros.deleteAll();
 		agregarRegistros(12, TipoVehiculoEnum.CARRO);
 		agregarRegistros(8, TipoVehiculoEnum.MOTO);
-		List<Vehiculo> listVehiculos = pBusniess.consultarTotalRegistros();
+		List<Vehiculo> listVehiculos = parqueaderoService.consultarTotalRegistros();
 		assertTrue(listVehiculos.size() == 20);
+	}
+	
+	@Test
+	public void registrarIngresoYaRegistradoServicesTest() {
+		daoRegistros.deleteAll();
+		Vehiculo v= new Vehiculo();
+		v.setPlaca("FRD159");
+		v.setTipoVehiculo(TipoVehiculoEnum.CARRO);
+		parqueaderoService.registrarIngreso(v);
+		Map<String, Boolean> listResultado=parqueaderoService.registrarIngreso(v);	
+		assertFalse(listResultado.get(ConstantesParametro.VALIDACION_YA_REGISTRADO));
 	}
 
 	private void agregarRegistros(int cantidad, TipoVehiculoEnum tipoVehiculo) {
