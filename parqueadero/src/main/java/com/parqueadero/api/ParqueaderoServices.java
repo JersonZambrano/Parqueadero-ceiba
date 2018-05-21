@@ -68,7 +68,6 @@ public class ParqueaderoServices {
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/consultarRegistros", method = RequestMethod.GET)
 	public List<Vehiculo > consultarTotalRegistros() {
-		List<Vehiculo> listVehiculos=parqueaderoService.consultarTotalRegistros();
-		return listVehiculos;
+		return parqueaderoService.consultarTotalRegistros();
 	}
 }

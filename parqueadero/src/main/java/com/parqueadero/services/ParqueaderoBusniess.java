@@ -13,7 +13,6 @@ import javax.persistence.NoResultException;
 import org.hibernate.NonUniqueResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.parqueadero.dao.ParametroRepository;
 import com.parqueadero.dao.RegistroParqueaderoRepository;
 import com.parqueadero.enumeraciones.ConstantesParametro;
 import com.parqueadero.enumeraciones.TipoVehiculoEnum;
@@ -35,9 +34,6 @@ public class ParqueaderoBusniess {
 	public static final String LLAVE_VALOR_ADICIONAL = "VALOR_ADICIONAL";
 	public static final int DIA_DOMINGO = 1;
 	public static final int DIA_LUNES = 2;
-
-	@Autowired
-	private ParametroRepository daoParametro;
 
 	@Autowired
 	private RegistroParqueaderoRepository daoRegistro;
