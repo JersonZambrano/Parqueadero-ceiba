@@ -1,21 +1,15 @@
 package com.parqueadero.parqueaderoPostgres;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.persistence.NoResultException;
-
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +18,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import com.parqueadero.api.ParqueaderoServices;
 import com.parqueadero.dao.RegistroParqueaderoRepository;
 import com.parqueadero.enumeraciones.ConstantesParametro;
@@ -32,8 +25,6 @@ import com.parqueadero.enumeraciones.TipoVehiculoEnum;
 import com.parqueadero.modelo.RegistroParqueadero;
 import com.parqueadero.modelo.Vehiculo;
 import com.parqueadero.services.ParqueaderoBusniess;
-
-import junit.framework.Assert;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

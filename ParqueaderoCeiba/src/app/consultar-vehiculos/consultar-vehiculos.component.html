@@ -1,0 +1,77 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="formulario-registro col-ms col-sm-8" >
+  <h3 class="col-ms col-sm-12">Consultar Vehiculos</h3>
+  <form #formRegistro="ngForm">
+
+    <div class="col-ms-12 col-sm-12">
+      <dt>
+        <label> Placa Vehiculo: </label>
+      </dt>
+      <div>
+        <input type="text" [(ngModel)]="vehiculo.placa" required 
+               placeholder="Ingrese placa" class="form-control" name="placa" #placa="ngModel"
+               formControlname="placa">
+      </div>
+    </div>
+
+    <div class="formulario-registro col-ms col-sm-12 form-inline" *ngIf ="vehiculo.tipoVehiculo != null">
+      <div class="col-ms-12 col-sm-6 col-md-offset">
+        <dt>
+          <label> Placa Vehiculo: {{vehiculo.placa}}</label>
+        </dt>
+      </div>
+      <div class="col-ms-12 col-sm-6 col-md-offset">
+        <dt>
+          <label> Tipo de vehiculo: {{vehiculo.tipoVehiculo}}</label>
+        </dt>
+      </div>
+      <div class="col-ms-12 col-sm-6 col-md-offset">
+        <dt>
+          <label> Fecha ingreso: {{vehiculo.fechaIngreso}}</label>
+        </dt>
+      </div>
+      <div class="col-ms-12 col-sm-6 col-md-offset" *ngIf ="vehiculo.tipoVehiculo == 'MOTO'">
+        <dt>
+          <label> Cilindraje: {{vehiculo.cilindraje}}</label>
+        </dt>
+      </div>
+    </div>
+    <br>
+    <div class="text-right col-ms-12 col-sm-12">
+      <button class="btn btn-primary" (click)="consultarVehiculo()" [disabled]="!formRegistro.valid"> Consultar Vehiculo </button>
+    </div>
+  </form>
+  <br>
+  <br>
+  <h6 class="col-ms col-sm-12">Vehiculos actuales</h6>
+  <div class="table-responsive col-ms col-sm-12">
+    <table id="tablaRegistros"
+           class="table table-bordered table-hover table-condensed todo-list dataTable"
+           role="grid" aria-describedby="example2_info">
+
+      <thead>
+        <tr role="row">
+          <th class="sorting" tabindex="0" aria-controls="example2"
+              rowspan="1" colspan="1">#</th>
+          <th class="sorting" tabindex="0" aria-controls="example2"
+              rowspan="1" colspan="1">Placa</th>
+          <th class="sorting" tabindex="0" aria-controls="example2"
+              rowspan="1" colspan="1">Tipo de vehiculo</th>
+          <th class="sorting" tabindex="0" aria-controls="example2"
+              rowspan="1" colspan="1">Cilindraje</th>
+          <th class="sorting" tabindex="0" aria-controls="example2"
+              rowspan="1" colspan="1">Fecha ingreso</th>
+      </thead>
+      <tbody>
+        <tr role="row" class="odd" *ngFor="let v of listVehiculos; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{v.placa}}</td>
+          <td>{{v.tipoVehiculo}}</td>
+          <td>{{v.cilindraje}}</td>
+          <td>{{v.fechaIngreso}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

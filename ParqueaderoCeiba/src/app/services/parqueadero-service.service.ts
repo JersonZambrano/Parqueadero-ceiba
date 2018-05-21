@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Http, HTTP_PROVIDERS} from '@angular/http';
+import { Http, Response} from '@angular/http';
 import {map} from 'rxjs/operators';
 
 @Injectable({

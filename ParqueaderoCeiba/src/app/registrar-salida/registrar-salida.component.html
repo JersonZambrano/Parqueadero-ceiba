@@ -1,0 +1,33 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="formulario-registro center-block col-ms col-sm-6" >
+  <h3 class="col-ms col-sm-12">Registrar Salida Vehiculo</h3>
+  <form #formRegistro="ngForm" >
+
+    <div class="col-ms-12 col-sm-12">
+      <dt>
+        <label> Placa Vehiculo: </label>
+      </dt>
+      <div>
+        <input type="text" [(ngModel)]="vehiculo.placa" required 
+               placeholder="Ingrese placa" class="form-control" name="placa" #placa="ngModel"
+               formControlname="placa">
+      </div>
+    </div>
+
+    <div class="col-ms-12 col-sm-12">
+      <dt>
+        <label>Valor a pagar $: </label>
+      </dt>
+      <div>
+        <input type="text" [(ngModel)]="valorFacturado" disabled 
+               class="form-control" name="totalAPagar" #placa="ngModel"
+               formControlname="totalAPagar">
+      </div>
+    </div>
+    <br>
+    <div class="text-right col-ms-12 col-sm-12">
+      <button class="btn btn-primary" (click)="registrarSalida()" [disabled]="!formRegistro.valid"> Facturar salidad vehiculo </button>
+    </div>
+  </form>
+</div>
+

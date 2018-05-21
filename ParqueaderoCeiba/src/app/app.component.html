@@ -1,73 +1,13 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div class="formulario-registro center-block col-ms col-sm-6" >
-  <h1 class="col-ms col-sm-6">Parqueadero Ceiba</h1>
-  <form #formRegistro="ngForm" >
-
-    <div class="col-ms-12 col-sm-12">
-      <dt>
-        <label> Placa Vehiculo: </label>
-      </dt>
-      <div>
-        <input type="text" [(ngModel)]="vehiculo.placa" required 
-               placeholder="Ingrese placa" class="form-control" name="placa" #placa="ngModel"
-               formControlname="placa">
-      </div>
-    </div>
-
-    <div class="col-ms-12 col-sm-12">
-      <dt>
-        <label> Tipo de Vehiculo: </label>
-      </dt>
-      <div>
-        <!--input type="text" required [(ngModel)]="vehiculo.tipoVehiculo" 
-placeholder="Ingrese tipo vehiculo" class="form-control" name="tipo"
-formControlname="tipoVehiculo"-->
-        <select name="tipo" [(ngModel)]="vehiculo.tipoVehiculo" required placeholder="Ingrese tipo vehiculo" class="form-control" >
-          <option *ngFor="let tipo of tipoVehiculo"
-                  [value]="tipo">{{tipo}}</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="col-ms-12 col-sm-12" *ngIf ="vehiculo.tipoVehiculo =='MOTO'">
-      <dt>
-        <label> Ingrese Cilindraje: </label>
-      </dt>
-      <div>
-        <input type="number" [(ngModel)]="vehiculo.cilindraje" required 
-               placeholder="Ingrese cilindraje" class="form-control" name="cilindraje" #cilindraje="ngModel"
-               formControlname="cilindraje">
-      </div>
-    </div>
-
-
-    <br>
-    <div class="text-right col-ms-12 col-sm-12">
-      <button class="btn btn-primary" (click)="registrarVehiculo()" [disabled]="!formRegistro.valid"> Registrar Vehiculo </button>
-      <button class="btn btn-primary" (click)="irA()"> Ir a </button>
-    </div>
-  </form>
+<h2 class="col-ms col-sm-6">Parqueadero Ceiba</h2>
+<div class=" col-ms-12 col-sm-12">
+  <span routerLink="/registrarVehiculo" routerLinkActive="active" class="btn btn-primary btn-xs ">Registar Vehiculo</span>
+  <span routerLink="/registrarSalida" routerLinkActive="active" class="btn btn-primary btn-xs "> Registrar Salida Vehiculo </span>
+  <span routerLink="/consultarVehiculo" routerLinkActive="active" class="btn btn-primary btn-xs ">Consutlar Vehiculo</span>
 </div>
 
-<div class="modal fade" id="myModal" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
-      </div>
-      <div class="modal-body">
-        <p>Some text in the modal.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
-</div>
+<br>
+<br>
+<router-outlet></router-outlet>
 
 
 

@@ -53,6 +53,7 @@ export class AppComponent {
         this.vehiculo={};
       },
       err => {
+        alert("Error tecnico Inesperado")
         console.log("Error occured");
       }
     );
@@ -60,9 +61,5 @@ export class AppComponent {
 
   registrarVehiculo(){
     this.registrarVehiculoServices();
-  }
-  
-  irA(){
-    
   }
 }

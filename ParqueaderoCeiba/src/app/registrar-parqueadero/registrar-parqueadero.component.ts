@@ -9,40 +9,50 @@ import {map} from 'rxjs/operators';
 })
 export class RegistrarParqueaderoComponent implements OnInit {
 
-    //title = 'app';
-  private apiUrl ='http://localhost:9091/consultarVehiculos/hX587f75'
   data: any = {};
   constructor( private http: Http) { }
 
   ngOnInit() {
   }
   
-  getData(){
-  this.http.get(this.apiUrl);
-    //.map((res: Response) => res.json);
-  }
-
-  registrarVehiculoServices(){
-    console.log("entra quiiii")
-    var url='http://localhost:9091/registrarIngreso'
-    return this.http.post(url,this.vehiculo);//.pipe(map(res: => res.json())).subscribe(data => { console.log("exito")});
-  }
+  tipoVehiculo = ['CARRO','MOTO'];
+  //tipoVehiculo : ["CARRO","MOTO"]
 
   vehiculo = {
-    placa:"plaasa"
+  }
+
+  registrarVehiculoServices() {
+    //console.log("entra quiiii")
+    var url = 'http://localhost:9091/registrarIngreso'
+    //return this.http.post(url,this.vehiculo);//.pipe(map(res: => res.json())).subscribe(data => { console.log("exito")});
+
+    const req = this.http.post(url, this.vehiculo)
+    .subscribe(
+      res => {
+        console.log(res);
+        var validaciones = JSON.parse(res['_body']);
+        console.log(validaciones);
+        if(validaciones['VALIDACION_DOMINGO_LUNES'] == false){
+          console.log("El vehiculo no puede ingresar estos dias");
+          alert("El vehiculo no puede ingresar estos dias")
+        }else if(validaciones['VALIDACION_DISPONIBILIDAD']  == false){
+          console.log("No hay disponibilidad en el parqueadero en estos momentos");
+          alert("No hay disponibilidad en el parqueadero en estos momentos")
+        }else if(validaciones['VALIDACION_YA_REGISTRADO']  == false){
+          alert("El vehiculo ya se encuentra en el parqueadero")
+        }else{
+          alert("El vehiculo fue registrado con exito")
+        }
+        this.vehiculo={};
+      },
+      err => {
+        alert("Error tecnico Inesperado")
+        console.log("Error occured");
+      }
+    );
   }
 
   registrarVehiculo(){
-    /*this.getData().subscribe(data => {
-      console.log(data)
-      console.log("lo que seaaaaaaaaaaa",this.vehiculo)
-      this.data = data;
-    })*/
-
-    this.registrarVehiculoServices().subscribe(data => {
-      console.log(data)
-      console.log("lo que seaaaaaaaaaaa",this.vehiculo)
-      this.data = data;
-    });
+    this.registrarVehiculoServices();
   }
 }
