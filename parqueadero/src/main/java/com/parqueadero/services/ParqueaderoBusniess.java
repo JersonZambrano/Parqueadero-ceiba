@@ -36,7 +36,6 @@ public class ParqueaderoBusniess {
 	public static final String LLAVE_VALOR_ADICIONAL = "VALOR_ADICIONAL";
 	public static final int DIA_DOMINGO = 1;
 	public static final int DIA_LUNES = 2;
-	
 
 	@Autowired
 	private ParametroRepository daoParametro;
@@ -50,8 +49,8 @@ public class ParqueaderoBusniess {
 	 * @return
 	 */
 	public Vehiculo buscarVehiculo(String placa) {
+		System.out.println("entra en el buscar vehiculo---------------");
 		try {
-
 			RegistroParqueadero reg = daoRegistro.buscarVehiculoPorPlaca(placa);
 			if (reg != null) {
 				Vehiculo v = new Vehiculo();
@@ -88,7 +87,8 @@ public class ParqueaderoBusniess {
 		List<Integer> diasPermitidos = new ArrayList<>();
 		diasPermitidos.add(DIA_DOMINGO);
 		diasPermitidos.add(DIA_LUNES);
-		validaciones.put(ConstantesParametro.VALIDACION_DOMINGO_LUNES, diaPermitidoIngresar(v.getPlaca(),diasPermitidos));
+		validaciones.put(ConstantesParametro.VALIDACION_DOMINGO_LUNES,
+				diaPermitidoIngresar(v.getPlaca(), diasPermitidos));
 		validaciones.put(ConstantesParametro.VALIDACION_DISPONIBILIDAD, hayCuposParqueadero(v));
 		validaciones.put(ConstantesParametro.VALIDACION_YA_REGISTRADO, vehiculoNoRegistrado(v));
 		return validaciones;
@@ -103,12 +103,12 @@ public class ParqueaderoBusniess {
 	 * @param placa
 	 * @return
 	 */
-	public boolean diaPermitidoIngresar(String placa,List<Integer> diasPermitidos) {
+	public boolean diaPermitidoIngresar(String placa, List<Integer> diasPermitidos) {
 		if (placa.toUpperCase().charAt(0) == 'A') {
 			Calendar now = Calendar.getInstance();
-			boolean permitidoIngreso=false;
+			boolean permitidoIngreso = false;
 			for (Integer integer : diasPermitidos) {
-				if(now.get(Calendar.DAY_OF_WEEK) == integer) {
+				if (now.get(Calendar.DAY_OF_WEEK) == integer) {
 					permitidoIngreso = true;
 					break;
 				}
@@ -123,9 +123,16 @@ public class ParqueaderoBusniess {
 	 * @param vehiculo
 	 */
 	public void registraringreso(Vehiculo vehiculo) {
-		RegistroParqueadero registro = vehiculo.converToEntity();
-		registro.setFechaIngreso(new Date());
-		daoRegistro.saveAndFlush(registro);
+		try {
+			RegistroParqueadero registro = vehiculo.converToEntity();
+			registro.setFechaIngreso(new Date());
+			daoRegistro.saveAndFlush(registro);
+			System.out.println("EXITO EL INGRESO--------------------");
+
+		} catch (Exception e) {
+			System.out.println("Excepcion--------------------");
+			System.out.println(e);
+		}
 	}
 
 	/**
@@ -200,5 +207,9 @@ public class ParqueaderoBusniess {
 			}
 		}
 		return listVehiculos;
+	}
+	
+	public void setDaoRegistroRepository (RegistroParqueaderoRepository reg) {
+		daoRegistro = reg;
 	}
 }

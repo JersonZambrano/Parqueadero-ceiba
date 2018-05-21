@@ -2,8 +2,10 @@ package com.parqueadero.parqueaderoPostgres;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -13,12 +15,16 @@ import javax.persistence.NoResultException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.parqueadero.api.ParqueaderoServices;
+import com.parqueadero.dao.RegistroParqueaderoRepository;
 import com.parqueadero.enumeraciones.TipoVehiculoEnum;
+import com.parqueadero.modelo.RegistroParqueadero;
 import com.parqueadero.modelo.Vehiculo;
 import com.parqueadero.services.ParqueaderoBusniess;
 
@@ -33,21 +39,36 @@ public class ParqueaderoPostgresApplicationTests {
 
 	@Autowired
 	ParqueaderoBusniess pBusniess;
-
+	
+	@Autowired
+	RegistroParqueaderoRepository daoRegistros;
+	
+	@InjectMocks
+	ParqueaderoBusniess parqueaderoBusniess;
+	
+	
+	
 	@Test
-	public void contextLoads() {
+	public void buscarVehiculoMockTest() {
+		RegistroParqueaderoRepository daoRepo= Mockito.mock(RegistroParqueaderoRepository.class);
+		RegistroParqueadero v = new RegistroParqueadero();
+		Mockito.doReturn(v).when(daoRepo).buscarVehiculoPorPlaca("DFG123");
+		parqueaderoBusniess.setDaoRegistroRepository(daoRepo);
+		parqueaderoBusniess.buscarVehiculo("DFG123");
+		
+		assertNotNull(v);
+		System.out.println("---------------FIN TES--------"+  v);
 	}
 
 	@Test
 	public void registrarIngresoIntegracionTest() {
 		String placa = "MSD123";
-		pBusniess.eliminarRegistro(placa);
+		daoRegistros.deleteAll();
 		Vehiculo v = new Vehiculo();
 		v.setPlaca(placa);
 		v.setTipoVehiculo(TipoVehiculoEnum.MOTO);
 		v.setCilindraje(new Double(501));
-		Map<String, Boolean> validaciones = parqueaderoService.registrarIngreso(v);
-		System.out.println(validaciones);
+		parqueaderoService.registrarIngreso(v);
 		assertNotNull(parqueaderoService.consultarVehiculo(v.getPlaca()));
 	}
 
@@ -59,7 +80,7 @@ public class ParqueaderoPostgresApplicationTests {
 	@Test
 	public void sacarVehiculoInexistente() {
 		String placa = "ASf123";
-		pBusniess.eliminarRegistro(placa);
+		daoRegistros.deleteAll();
 		try {
 			pBusniess.registrarSalida(placa);
 			assertTrue(false);
@@ -70,24 +91,14 @@ public class ParqueaderoPostgresApplicationTests {
 
 	@Test
 	public void ingresarVehiculoRegistradoTest() {
-		String placa = "BSD124";
-		pBusniess.eliminarRegistro(placa);
-		Vehiculo vehiculo = new Vehiculo();
-		vehiculo.setPlaca(placa);
-		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
-		pBusniess.registraringreso(vehiculo);
-		assertNotNull(parqueaderoService.consultarVehiculo(placa));
+		assertTrue(true);
 	}
 
 	@Test
 	public void consultarVehiculoTest() {
 
 		String placa = "BSD125";
-
-		if (parqueaderoService.consultarVehiculo(placa) != null) {
-			assertTrue(true);
-		}
-
+		daoRegistros.deleteAll();
 		Vehiculo vehiculo = new Vehiculo();
 		vehiculo.setPlaca(placa);
 		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
@@ -99,11 +110,7 @@ public class ParqueaderoPostgresApplicationTests {
 	public void buscarVehiculoTest() {
 
 		String placa = "BSD126";
-
-		if (pBusniess.buscarVehiculo(placa) != null) {
-			assertTrue(true);
-		}
-
+		daoRegistros.deleteAll();
 		Vehiculo vehiculo = new Vehiculo();
 		vehiculo.setPlaca(placa);
 		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
@@ -119,27 +126,19 @@ public class ParqueaderoPostgresApplicationTests {
 	@Test
 	public void vehiculoNoRegistradoTest() {
 		String placa = "BSD127";
-
-		if (pBusniess.buscarVehiculo(placa) != null) {
-			pBusniess.eliminarRegistro(placa);
-		}
-
+		daoRegistros.deleteAll();
 		Vehiculo vehiculo = new Vehiculo();
 		vehiculo.setPlaca(placa);
-
 		assertTrue(pBusniess.vehiculoNoRegistrado(vehiculo));
 	}
 
 	@Test
 	public void vehiculoRegistradoTest() {
 		String placa = "BSD128";
-
+		daoRegistros.deleteAll();
 		Vehiculo vehiculo = new Vehiculo();
 		vehiculo.setPlaca(placa);
 		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
-		if (pBusniess.buscarVehiculo(placa) != null) {
-			assertFalse(pBusniess.vehiculoNoRegistrado(vehiculo));
-		}
 		pBusniess.registraringreso(vehiculo);
 		assertFalse(pBusniess.vehiculoNoRegistrado(vehiculo));
 	}
@@ -160,5 +159,17 @@ public class ParqueaderoPostgresApplicationTests {
 		List<Integer> diasPermitidos = new ArrayList<>();
 		diasPermitidos.add((now.get(Calendar.DAY_OF_WEEK)+1));
 		assertFalse(pBusniess.diaPermitidoIngresar(placa, diasPermitidos));
+	}
+	
+	@Test
+	public void registrarSalida() {
+		
+		String placa = "VGA159";
+		daoRegistros.deleteAll();
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.setPlaca(placa);
+		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
+		parqueaderoService.registrarIngreso(vehiculo);
+		assertNotNull(parqueaderoService.registrarSalida(vehiculo));
 	}
 }
