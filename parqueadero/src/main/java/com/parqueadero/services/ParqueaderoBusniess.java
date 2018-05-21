@@ -34,6 +34,9 @@ public class ParqueaderoBusniess {
 	public static final String LLAVE_DIA = "DIAS";
 	public static final String LLAVE_HORA = "HORAS";
 	public static final String LLAVE_VALOR_ADICIONAL = "VALOR_ADICIONAL";
+	public static final int DIA_DOMINGO = 1;
+	public static final int DIA_LUNES = 2;
+	
 
 	@Autowired
 	private ParametroRepository daoParametro;
@@ -82,13 +85,16 @@ public class ParqueaderoBusniess {
 	public Map<String, Boolean> validarEntrada(Vehiculo v) {
 
 		Map<String, Boolean> validaciones = new HashMap<>();
-		validaciones.put(ConstantesParametro.VALIDACION_DOMINGO_LUNES, diaPermitidoIngresar(v.getPlaca()));
+		List<Integer> diasPermitidos = new ArrayList<>();
+		diasPermitidos.add(DIA_DOMINGO);
+		diasPermitidos.add(DIA_LUNES);
+		validaciones.put(ConstantesParametro.VALIDACION_DOMINGO_LUNES, diaPermitidoIngresar(v.getPlaca(),diasPermitidos));
 		validaciones.put(ConstantesParametro.VALIDACION_DISPONIBILIDAD, hayCuposParqueadero(v));
 		validaciones.put(ConstantesParametro.VALIDACION_YA_REGISTRADO, vehiculoNoRegistrado(v));
 		return validaciones;
 	}
 
-	private Boolean vehiculoNoRegistrado(Vehiculo v) {
+	public Boolean vehiculoNoRegistrado(Vehiculo v) {
 		return buscarVehiculo(v.getPlaca()) == null ? true : false;
 	}
 
@@ -97,10 +103,17 @@ public class ParqueaderoBusniess {
 	 * @param placa
 	 * @return
 	 */
-	public boolean diaPermitidoIngresar(String placa) {
+	public boolean diaPermitidoIngresar(String placa,List<Integer> diasPermitidos) {
 		if (placa.toUpperCase().charAt(0) == 'A') {
 			Calendar now = Calendar.getInstance();
-			return (now.get(Calendar.DAY_OF_WEEK) == 1 || now.get(Calendar.DAY_OF_WEEK) == 2);
+			boolean permitidoIngreso=false;
+			for (Integer integer : diasPermitidos) {
+				if(now.get(Calendar.DAY_OF_WEEK) == integer) {
+					permitidoIngreso = true;
+					break;
+				}
+			}
+			return permitidoIngreso;
 		}
 		return true;
 	}

@@ -4,6 +4,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.NoResultException;
@@ -18,6 +21,8 @@ import com.parqueadero.api.ParqueaderoServices;
 import com.parqueadero.enumeraciones.TipoVehiculoEnum;
 import com.parqueadero.modelo.Vehiculo;
 import com.parqueadero.services.ParqueaderoBusniess;
+
+import junit.framework.Assert;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -75,17 +80,14 @@ public class ParqueaderoPostgresApplicationTests {
 	}
 
 	@Test
-	public void buscarVehiculoTest() {
+	public void consultarVehiculoTest() {
 
 		String placa = "BSD123";
 
 		if (parqueaderoService.consultarVehiculo(placa) != null) {
 			assertTrue(true);
-		}else{
-			
 		}
 
-		pBusniess.eliminarRegistro(placa);
 		Vehiculo vehiculo = new Vehiculo();
 		vehiculo.setPlaca(placa);
 		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
@@ -93,4 +95,70 @@ public class ParqueaderoPostgresApplicationTests {
 		assertNotNull(parqueaderoService.consultarVehiculo(placa));
 	}
 
+	@Test
+	public void buscarVehiculoTest() {
+
+		String placa = "BSD123";
+
+		if (pBusniess.buscarVehiculo(placa) != null) {
+			assertTrue(true);
+		}
+
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.setPlaca(placa);
+		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
+		pBusniess.registraringreso(vehiculo);
+		assertNotNull(pBusniess.buscarVehiculo(placa));
+	}
+
+	@Test
+	public void validarCupoTest() {
+		assertFalse(false);
+	}
+
+	@Test
+	public void vehiculoNoRegistradoTest() {
+		String placa = "BSD123";
+
+		if (pBusniess.buscarVehiculo(placa) != null) {
+			pBusniess.eliminarRegistro(placa);
+		}
+
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.setPlaca(placa);
+
+		assertTrue(pBusniess.vehiculoNoRegistrado(vehiculo));
+	}
+
+	@Test
+	public void vehiculoRegistradoTest() {
+		String placa = "BSD123";
+
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.setPlaca(placa);
+		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
+		if (pBusniess.buscarVehiculo(placa) != null) {
+			assertFalse(pBusniess.vehiculoNoRegistrado(vehiculo));
+		}
+		pBusniess.registraringreso(vehiculo);
+		assertFalse(pBusniess.vehiculoNoRegistrado(vehiculo));
+	}
+
+	@Test
+	public void diaPermitidoIngresarTest() {
+		String placa = "ASD123";
+		Calendar now = Calendar.getInstance();
+		List<Integer> diasPermitidos = new ArrayList<>();
+		diasPermitidos.add(now.get(Calendar.DAY_OF_WEEK));
+		assertTrue(pBusniess.diaPermitidoIngresar(placa, diasPermitidos));
+	}
+	
+	@Test
+	public void diaNoPermitidoIngresarTest() {
+		String placa = "ASD123";
+		Calendar now = Calendar.getInstance();
+		List<Integer> diasPermitidos = new ArrayList<>();
+		diasPermitidos.add((now.get(Calendar.DAY_OF_WEEK)+1));
+		assertFalse(pBusniess.diaPermitidoIngresar(placa, diasPermitidos));
+	}
 }
