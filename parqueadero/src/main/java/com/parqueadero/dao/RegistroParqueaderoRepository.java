@@ -1,5 +1,7 @@
 package com.parqueadero.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,5 +19,8 @@ public interface RegistroParqueaderoRepository extends JpaRepository<RegistroPar
 	
 	@Query("SELECT v FROM RegistroParqueadero v  WHERE v.placa=(:placa) AND fechaSalida IS NULL")
 	RegistroParqueadero consultarRegistroSalida(@Param("placa") String placa);
+	
+	@Query("SELECT v FROM RegistroParqueadero v  WHERE fechaSalida IS NULL")
+	List<RegistroParqueadero> buscarTotalRegistros();
 
 }

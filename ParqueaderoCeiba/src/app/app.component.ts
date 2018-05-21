@@ -14,23 +14,23 @@ export class AppComponent {
   data: any = {};
 
 
-  constructor(private http: Http){
+  constructor( private http: Http ) {
     console.log("entra a la aplicación inicialmente");
   }
 
   tipoVehiculo = ['CARRO','MOTO'];
   //tipoVehiculo : ["CARRO","MOTO"]
 
-  getData(){
+  getData() {
     this.http.get(this.apiUrl);
     //.map((res: Response) => res.json);
   }
   vehiculo = {
   }
 
-  registrarVehiculoServices(){
+  registrarVehiculoServices() {
     //console.log("entra quiiii")
-    var url='http://localhost:9091/registrarIngreso'
+    var url = 'http://localhost:9091/registrarIngreso'
     //return this.http.post(url,this.vehiculo);//.pipe(map(res: => res.json())).subscribe(data => { console.log("exito")});
 
     const req = this.http.post(url, this.vehiculo)
@@ -50,7 +50,6 @@ export class AppComponent {
         }else{
           alert("El vehiculo fue registrado con exito")
         }
-        //$("#myModal").modal()
         this.vehiculo={};
       },
       err => {
@@ -61,5 +60,9 @@ export class AppComponent {
 
   registrarVehiculo(){
     this.registrarVehiculoServices();
+  }
+  
+  irA(){
+    
   }
 }

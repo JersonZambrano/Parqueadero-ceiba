@@ -3,9 +3,11 @@
  */
 package com.parqueadero.services;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.NoResultException;
 
@@ -171,5 +173,19 @@ public class ParqueaderoBusniess {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	public List<Vehiculo> consultarTotalRegistros() {
+		List<Vehiculo> listVehiculos = null;
+		List<RegistroParqueadero> reg = daoRegistro.buscarTotalRegistros();
+		if (!reg.isEmpty() && reg != null) {
+			listVehiculos = new ArrayList<>();
+			for (RegistroParqueadero registroParqueadero : reg) {
+				Vehiculo v = new Vehiculo();
+				v.entityToVehiculo(registroParqueadero);
+				listVehiculos.add(v);
+			}
+		}
+		return listVehiculos;
 	}
 }

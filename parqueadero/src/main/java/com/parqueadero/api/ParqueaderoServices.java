@@ -3,6 +3,7 @@
  */
 package com.parqueadero.api;
 
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -65,5 +66,12 @@ public class ParqueaderoServices {
 	@RequestMapping(value = "/consultarVehiculos/{placa}", method = RequestMethod.GET)
 	public Vehiculo consultarVehiculo(@PathVariable("placa") String placa) {
 		return parqueaderoService.buscarVehiculo(placa);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value = "/consultarRegistros", method = RequestMethod.GET)
+	public List<Vehiculo > consultarTotalRegistros() {
+		parqueaderoService.consultarTotalRegistros();
+		return null;
 	}
 }
