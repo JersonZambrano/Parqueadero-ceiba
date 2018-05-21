@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.NoResultException;
-import javax.swing.plaf.basic.BasicTreeUI.TreeHomeAction;
-
 import org.hibernate.NonUniqueResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -164,7 +162,7 @@ public class ParqueaderoBusniess {
 		Map<String, Integer> calculoDiaHora = new HashMap<>();
 		int diasLiquidar = 0;
 		int horasLiquidar = 0;
-		double horasTotal = Math.ceil((new Double(new Date().getTime() - fechaIngreso.getTime())) / HORAS_EPOCH);
+		double horasTotal = Math.ceil(((double)(new Date().getTime() - fechaIngreso.getTime())) / HORAS_EPOCH);
 		diasLiquidar = (int) Math.floor(horasTotal / HORAS_DEL_DIA);
 		horasLiquidar = (int) Math.ceil(((horasTotal / HORAS_DEL_DIA) - diasLiquidar) * HORAS_DEL_DIA);
 		if (horasLiquidar > HORAS_A_DIAS) {
@@ -179,7 +177,7 @@ public class ParqueaderoBusniess {
 	public List<Vehiculo> consultarTotalRegistros() {
 		List<Vehiculo> listVehiculos = null;
 		List<RegistroParqueadero> reg = daoRegistro.buscarTotalRegistros();
-		if (!reg.isEmpty() && reg != null) {
+		if (!reg.isEmpty()) {
 			listVehiculos = new ArrayList<>();
 			for (RegistroParqueadero registroParqueadero : reg) {
 				Vehiculo v = new Vehiculo();

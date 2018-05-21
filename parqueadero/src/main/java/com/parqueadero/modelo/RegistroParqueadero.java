@@ -44,11 +44,6 @@ public class RegistroParqueadero  implements Serializable {
 	private Double cilindraje;
 	
 
-	
-	public RegistroParqueadero() {
-		// TODO Auto-generated constructor stub
-	}
-
 	/**
 	 * @return the idRegistro
 	 */

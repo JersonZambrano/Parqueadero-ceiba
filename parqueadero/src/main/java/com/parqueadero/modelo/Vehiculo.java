@@ -27,10 +27,6 @@ public  class Vehiculo {
 	
 	private Date fechaIngreso;
 
-	
-	public Vehiculo() {
-	}
-
 	/**
 	 * @return the placa
 	 */
