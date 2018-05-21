@@ -58,7 +58,7 @@ public class ParqueaderoPostgresApplicationTests {
 
 	@Test
 	public void sacarVehiculoInexistente() {
-		String placa = "ASD123";
+		String placa = "ASf123";
 		pBusniess.eliminarRegistro(placa);
 		try {
 			pBusniess.registrarSalida(placa);
@@ -70,7 +70,7 @@ public class ParqueaderoPostgresApplicationTests {
 
 	@Test
 	public void ingresarVehiculoRegistradoTest() {
-		String placa = "BSD123";
+		String placa = "BSD124";
 		pBusniess.eliminarRegistro(placa);
 		Vehiculo vehiculo = new Vehiculo();
 		vehiculo.setPlaca(placa);
@@ -82,7 +82,7 @@ public class ParqueaderoPostgresApplicationTests {
 	@Test
 	public void consultarVehiculoTest() {
 
-		String placa = "BSD123";
+		String placa = "BSD125";
 
 		if (parqueaderoService.consultarVehiculo(placa) != null) {
 			assertTrue(true);
@@ -98,7 +98,7 @@ public class ParqueaderoPostgresApplicationTests {
 	@Test
 	public void buscarVehiculoTest() {
 
-		String placa = "BSD123";
+		String placa = "BSD126";
 
 		if (pBusniess.buscarVehiculo(placa) != null) {
 			assertTrue(true);
@@ -118,7 +118,7 @@ public class ParqueaderoPostgresApplicationTests {
 
 	@Test
 	public void vehiculoNoRegistradoTest() {
-		String placa = "BSD123";
+		String placa = "BSD127";
 
 		if (pBusniess.buscarVehiculo(placa) != null) {
 			pBusniess.eliminarRegistro(placa);
@@ -132,7 +132,7 @@ public class ParqueaderoPostgresApplicationTests {
 
 	@Test
 	public void vehiculoRegistradoTest() {
-		String placa = "BSD123";
+		String placa = "BSD128";
 
 		Vehiculo vehiculo = new Vehiculo();
 		vehiculo.setPlaca(placa);
@@ -146,7 +146,7 @@ public class ParqueaderoPostgresApplicationTests {
 
 	@Test
 	public void diaPermitidoIngresarTest() {
-		String placa = "ASD123";
+		String placa = "ASg123";
 		Calendar now = Calendar.getInstance();
 		List<Integer> diasPermitidos = new ArrayList<>();
 		diasPermitidos.add(now.get(Calendar.DAY_OF_WEEK));
@@ -155,7 +155,7 @@ public class ParqueaderoPostgresApplicationTests {
 	
 	@Test
 	public void diaNoPermitidoIngresarTest() {
-		String placa = "ASD123";
+		String placa = "ASh123";
 		Calendar now = Calendar.getInstance();
 		List<Integer> diasPermitidos = new ArrayList<>();
 		diasPermitidos.add((now.get(Calendar.DAY_OF_WEEK)+1));
