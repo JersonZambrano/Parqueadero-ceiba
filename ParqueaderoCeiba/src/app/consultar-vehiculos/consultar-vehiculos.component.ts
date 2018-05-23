@@ -22,7 +22,6 @@ export class ConsultarVehiculosComponent implements OnInit {
 
   listVehiculos = [];
 
-
   consultarVehiculoServices() {
 
     var url = 'http://localhost:9091/consultarVehiculos/{placa}'
@@ -30,7 +29,12 @@ export class ConsultarVehiculosComponent implements OnInit {
     const req = this.http.get(url)
     .subscribe(
       res => {
-        this.vehiculo = JSON.parse(res['_body']);
+        if(res['_body'] != null && res['_body'] != ""){
+          this.listVehiculos = [JSON.parse(res['_body'])];
+        }else{
+          this.listVehiculos=[];
+          alert("El vehiculo no se encuentra registrado en el parqueadero actualmente")
+        }
       },
       err => {
         alert("Error tecnico Inesperado")
@@ -54,6 +58,10 @@ export class ConsultarVehiculosComponent implements OnInit {
   }
 
   consultarVehiculo(){
-    this.consultarVehiculoServices();
+    if(this.vehiculo.placa!= null && this.vehiculo.placa != ""){
+      this.consultarVehiculoServices();
+    }else{
+      this.consultarVehiculosServices();
+    }
   }
 }

@@ -14,31 +14,9 @@
       </div>
     </div>
 
-    <div class="formulario-registro col-ms col-sm-12 form-inline" *ngIf ="vehiculo.tipoVehiculo != null">
-      <div class="col-ms-12 col-sm-6 col-md-offset">
-        <dt>
-          <label> Placa Vehiculo: {{vehiculo.placa}}</label>
-        </dt>
-      </div>
-      <div class="col-ms-12 col-sm-6 col-md-offset">
-        <dt>
-          <label> Tipo de vehiculo: {{vehiculo.tipoVehiculo}}</label>
-        </dt>
-      </div>
-      <div class="col-ms-12 col-sm-6 col-md-offset">
-        <dt>
-          <label> Fecha ingreso: {{vehiculo.fechaIngreso}}</label>
-        </dt>
-      </div>
-      <div class="col-ms-12 col-sm-6 col-md-offset" *ngIf ="vehiculo.tipoVehiculo == 'MOTO'">
-        <dt>
-          <label> Cilindraje: {{vehiculo.cilindraje}}</label>
-        </dt>
-      </div>
-    </div>
     <br>
     <div class="text-right col-ms-12 col-sm-12">
-      <button class="btn btn-primary" (click)="consultarVehiculo()" [disabled]="!formRegistro.valid"> Consultar Vehiculo </button>
+      <button class="btn btn-primary" (click)="consultarVehiculo()" > Consultar Vehiculo </button>
     </div>
   </form>
   <br>
@@ -68,7 +46,7 @@
           <td>{{v.placa}}</td>
           <td>{{v.tipoVehiculo}}</td>
           <td>{{v.cilindraje}}</td>
-          <td>{{v.fechaIngreso}}</td>
+          <td>{{v.fechaIngreso | date : "dd.MM.yyyy - HH:mm"}}</td>
         </tr>
       </tbody>
     </table>

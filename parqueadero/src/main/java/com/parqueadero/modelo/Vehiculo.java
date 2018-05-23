@@ -26,6 +26,22 @@ public  class Vehiculo {
 	private TipoVehiculoEnum tipoVehiculo;
 	
 	private Date fechaIngreso;
+	
+	private Double valorTotal;
+
+	/**
+	 * @return the valorTotal
+	 */
+	public Double getValorTotal() {
+		return valorTotal;
+	}
+
+	/**
+	 * @param valorTotal the valorTotal to set
+	 */
+	public void setValorTotal(Double valorTotal) {
+		this.valorTotal = valorTotal;
+	}
 
 	/**
 	 * @return the placa
@@ -98,5 +114,6 @@ public  class Vehiculo {
 		this.cilindraje = reg.getCilindraje();
 		this.fechaIngreso = reg.getFechaIngreso();
 		this.tipoVehiculo = reg.getTipoVehiculo();
+		this.valorTotal = reg.getValorTotal();
 	}
 }

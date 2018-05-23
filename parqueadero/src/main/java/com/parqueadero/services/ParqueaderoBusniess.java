@@ -128,13 +128,14 @@ public class ParqueaderoBusniess {
 	 * @param placa
 	 * @return
 	 */
-	public Double registrarSalida(String placa) {
+	public Vehiculo registrarSalida(String placa) {
 		double valorAdicional = 0;
 		RegistroParqueadero reg = daoRegistro.consultarRegistroSalida(placa);
 		if (reg == null) {
 			throw new NoResultException(
 					"public Double registrarSalida(String placa), no se ha encontrado algun registro");
 		}
+		
 		reg.setFechaSalida(new Date());
 		if (TipoVehiculoEnum.MOTO.equals(reg.getTipoVehiculo())
 				&& reg.getCilindraje() > ConstantesParametro.CILINDRAJE_MAYOR) {
@@ -145,7 +146,10 @@ public class ParqueaderoBusniess {
 				+ calculoDiaHora.get(LLAVE_DIA) * (reg.getTipoVehiculo().getValorDia()) + valorAdicional;
 		reg.setValorTotal(precioFacturado);
 		daoRegistro.saveAndFlush(reg);
-		return precioFacturado;
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.entityToVehiculo(reg);
+		//return precioFacturado;
+		return vehiculo;
 	}
 
 	/**
@@ -171,10 +175,9 @@ public class ParqueaderoBusniess {
 	}
 
 	public List<Vehiculo> consultarTotalRegistros() {
-		List<Vehiculo> listVehiculos = null;
+		List<Vehiculo> listVehiculos =new ArrayList<>();
 		List<RegistroParqueadero> reg = daoRegistro.buscarTotalRegistros();
 		if (!reg.isEmpty()) {
-			listVehiculos = new ArrayList<>();
 			for (RegistroParqueadero registroParqueadero : reg) {
 				Vehiculo v = new Vehiculo();
 				v.entityToVehiculo(registroParqueadero);

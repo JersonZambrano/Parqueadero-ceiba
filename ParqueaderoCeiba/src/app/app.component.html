@@ -4,10 +4,16 @@
   <span routerLink="/registrarSalida" routerLinkActive="active" class="btn btn-primary btn-xs "> Registrar Salida Vehiculo </span>
   <span routerLink="/consultarVehiculo" routerLinkActive="active" class="btn btn-primary btn-xs ">Consutlar Vehiculo</span>
 </div>
+<br>
+<br>
 
-<br>
-<br>
+<button (click)="mostrarModal()">Mostrar modal</button>
+
 <router-outlet></router-outlet>
 
+<!-- Custom modal setup -->
+<div id="modal-container" class="hidden"></div>
+<div id="overlay" (click)="removeModal()" class="hidden"></div>
 
+<iframe subbag="iframe_block1"  src="/sites/default/files/indicadores/eehomeindicators.html" ></iframe>
 

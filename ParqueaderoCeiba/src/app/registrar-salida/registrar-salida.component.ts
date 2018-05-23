@@ -17,7 +17,7 @@ export class RegistrarSalidaComponent implements OnInit {
 
   vehiculo = {
   }
-  valorFacturado =0;
+  hayResultado =false;
 
   registrarSalidaServices() {
 
@@ -26,14 +26,24 @@ export class RegistrarSalidaComponent implements OnInit {
     const req = this.http.post(url, this.vehiculo)
     .subscribe(
       res => {
-        this.valorFacturado = JSON.parse(res['_body']);
-        alert("Monto a factuar es: $"+this.valorFacturado);
-        this.vehiculo={};
+        if(res['_body'] != null && res['_body'] != ""){
+          this.hayResultado = true;
+          this.vehiculo = JSON.parse(res['_body']);
+          //alert("Monto a factuar es: $"+this.valorFacturado);
+          //this.vehiculo={};
+        }else{
+          alert("El vehiculo no se encuentra registrado actualmente en el parqueadero");
+        }
       },
       err => {
         alert("Error tecnico Inesperado")
       }
     );
+  }
+
+  aceptarResultado(){
+    this.hayResultado = false;
+    this.vehiculo= {};
   }
 
   registrarSalida(){

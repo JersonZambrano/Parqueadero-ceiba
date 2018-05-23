@@ -3,30 +3,68 @@
   <h3 class="col-ms col-sm-12">Registrar Salida Vehiculo</h3>
   <form #formRegistro="ngForm" >
 
-    <div class="col-ms-12 col-sm-12">
-      <dt>
-        <label> Placa Vehiculo: </label>
-      </dt>
-      <div>
-        <input type="text" [(ngModel)]="vehiculo.placa" required 
-               placeholder="Ingrese placa" class="form-control" name="placa" #placa="ngModel"
-               formControlname="placa">
+    <div *ngIf="!hayResultado">
+      <div class="col-ms-12 col-sm-12">
+        <dt>
+          <label> Placa Vehiculo: </label>
+        </dt>
+        <div>
+          <input type="text" [(ngModel)]="vehiculo.placa" required 
+                 placeholder="Ingrese placa" class="form-control" name="placa" #placa="ngModel"
+                 formControlname="placa">
+        </div>
+      </div>
+
+      <!--div class="col-ms-12 col-sm-12">
+<dt>
+<label>Valor a pagar $: </label>
+</dt>
+<div>
+<input type="text" [(ngModel)]="valorFacturado" disabled 
+class="form-control" name="totalAPagar" #placa="ngModel"
+formControlname="totalAPagar">
+</div>
+</div-->
+
+
+
+      <br>
+      <div class="text-right col-ms-12 col-sm-12">
+        <button class="btn btn-primary" (click)="registrarSalida()" [disabled]="!formRegistro.valid"> Facturar salidad vehiculo </button>
       </div>
     </div>
 
-    <div class="col-ms-12 col-sm-12">
-      <dt>
-        <label>Valor a pagar $: </label>
-      </dt>
-      <div>
-        <input type="text" [(ngModel)]="valorFacturado" disabled 
-               class="form-control" name="totalAPagar" #placa="ngModel"
-               formControlname="totalAPagar">
+    <div *ngIf="hayResultado">
+      <div class="formulario-registro col-ms col-sm-12 form-inline" *ngIf ="vehiculo.tipoVehiculo != null">
+        <div class="col-ms-12 col-sm-6 col-md-offset">
+          <dt>
+            <label> Placa Vehiculo: {{vehiculo.placa}}</label>
+          </dt>
+        </div>
+        <div class="col-ms-12 col-sm-6 col-md-offset">
+          <dt>
+            <label> Tipo de vehiculo: {{vehiculo.tipoVehiculo}}</label>
+          </dt>
+        </div>
+        <div class="col-ms-12 col-sm-6 col-md-offset">
+          <dt>
+            <label> Fecha ingreso: {{vehiculo.fechaIngreso | date : "dd.MM.yyyy - HH:mm"}}</label>
+          </dt>
+        </div>
+        <div class="col-ms-12 col-sm-6 col-md-offset" *ngIf ="vehiculo.tipoVehiculo == 'MOTO'">
+          <dt>
+            <label> Cilindraje: {{vehiculo.cilindraje}}</label>
+          </dt>
+        </div>
+        <div class="col-ms-12 col-sm-6 col-md-offset" >
+          <dt>
+            <label class="total-pago"> Valor a pagar: {{vehiculo.valorTotal}}</label>
+          </dt>
+        </div>
       </div>
-    </div>
-    <br>
-    <div class="text-right col-ms-12 col-sm-12">
-      <button class="btn btn-primary" (click)="registrarSalida()" [disabled]="!formRegistro.valid"> Facturar salidad vehiculo </button>
+      <div class="text-right col-ms-12 col-sm-12">
+        <button class="btn btn-success" (click)="aceptarResultado()"> Aceptar</button>
+      </div>
     </div>
   </form>
 </div>

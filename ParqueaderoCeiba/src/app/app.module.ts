@@ -31,10 +31,10 @@ const appRoutes: Routes = [
     BrowserModule,
     AlertModule.forRoot(),
     HttpModule,
-    FormsModule//,
+    FormsModule,
     //    NgbModule
   ],
-  providers: [AppComponent],
+  providers: [],
   bootstrap: [AppComponent]
 })
 
