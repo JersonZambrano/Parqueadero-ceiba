@@ -37,7 +37,8 @@ export class ConsultarVehiculosComponent implements OnInit {
         }
       },
       err => {
-        alert("Error tecnico Inesperado")
+        let error = JSON.parse(err['_body']);
+        alert("Error tecnico Inesperado: "+error.message)
       }
     );
   }

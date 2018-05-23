@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -60,8 +61,11 @@ public class ParqueaderoServices {
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/consultarVehiculos/{placa}", method = RequestMethod.GET)
 	public Vehiculo consultarVehiculo(@PathVariable("placa") String placa) {
-		
-		return parqueaderoService.buscarVehiculo(placa);
+		try {
+			return parqueaderoService.buscarVehiculo(placa);
+		} catch (NonUniqueResultException e) {
+			throw new NonUniqueResultException("Se encuentra repetido el vehiculo");
+		}
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")

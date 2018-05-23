@@ -10,7 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.NoResultException;
-import org.hibernate.NonUniqueResultException;
+import javax.persistence.NonUniqueResultException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.parqueadero.dao.RegistroParqueaderoRepository;
@@ -53,7 +54,7 @@ public class ParqueaderoBusniess {
 			}
 			return null;
 		} catch (NonUniqueResultException e) {
-			return null;
+			throw new NonUniqueResultException();
 		}
 	}
 
@@ -148,7 +149,6 @@ public class ParqueaderoBusniess {
 		daoRegistro.saveAndFlush(reg);
 		Vehiculo vehiculo = new Vehiculo();
 		vehiculo.entityToVehiculo(reg);
-		//return precioFacturado;
 		return vehiculo;
 	}
 

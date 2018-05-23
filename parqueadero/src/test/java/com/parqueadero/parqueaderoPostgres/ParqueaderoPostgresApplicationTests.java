@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.NoResultException;
+
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -109,6 +110,24 @@ public class ParqueaderoPostgresApplicationTests {
 		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
 		pBusniess.registraringreso(vehiculo);
 		assertNotNull(pBusniess.buscarVehiculo(placa));
+	}
+	
+	@Test
+	public void buscarVehiculoDuplicadoTest() {
+
+		String placa = "BSD126";
+		daoRegistros.deleteAll();
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.setPlaca(placa);
+		vehiculo.setTipoVehiculo(TipoVehiculoEnum.CARRO);
+		pBusniess.registraringreso(vehiculo);
+		pBusniess.registraringreso(vehiculo);
+		try {
+			pBusniess.buscarVehiculo(placa);
+			assertTrue(false);
+		} catch (Exception e) {
+			assertTrue(true);
+		}
 	}
 
 	@Test
@@ -215,6 +234,14 @@ public class ParqueaderoPostgresApplicationTests {
 		Date fechaIngreso = new Date(new Date().getTime() - horas);
 		Map<String, Integer> calculoDiaHora = pBusniess.calcularDiasYHoras(fechaIngreso);
 		assertTrue((calculoDiaHora.get(pBusniess.LLAVE_DIA) == 1) && (calculoDiaHora.get(pBusniess.LLAVE_HORA) == 2));
+	}
+	
+	@Test
+	public void calcularDiasYHorasMayor9Test() {
+		Long horas = pBusniess.HORAS_EPOCH * 34L;
+		Date fechaIngreso = new Date(new Date().getTime() - horas);
+		Map<String, Integer> calculoDiaHora = pBusniess.calcularDiasYHoras(fechaIngreso);
+		assertTrue((calculoDiaHora.get(pBusniess.LLAVE_DIA) == 2) && (calculoDiaHora.get(pBusniess.LLAVE_HORA) == 0));
 	}
 
 	@Test
