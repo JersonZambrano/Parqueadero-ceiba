@@ -10,10 +10,11 @@ import { AppComponent } from './app.component';
 import { RegistrarParqueaderoComponent } from './registrar-parqueadero/registrar-parqueadero.component';
 import { ConsultarVehiculosComponent } from './consultar-vehiculos/consultar-vehiculos.component';
 import { RegistrarSalidaComponent } from './registrar-salida/registrar-salida.component';
+import { AlertModalComponent } from './alert-modal/alert-modal.component';
 
 const appRoutes: Routes = [
   { path: 'registrarVehiculo', component: RegistrarParqueaderoComponent},
-  { path: 'registrarSalida', component: RegistrarSalidaComponent},
+  { path: 'registrarSalida/:placa', component: RegistrarSalidaComponent},
   { path: 'consultarVehiculo', component: ConsultarVehiculosComponent}
 ];
 @NgModule({
@@ -21,7 +22,8 @@ const appRoutes: Routes = [
     AppComponent,
     RegistrarParqueaderoComponent,
     ConsultarVehiculosComponent,
-    RegistrarSalidaComponent
+    RegistrarSalidaComponent,
+    AlertModalComponent
   ],
   imports: [
     RouterModule.forRoot(

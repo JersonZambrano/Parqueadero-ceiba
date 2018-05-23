@@ -16,14 +16,21 @@ export class ConsultarVehiculosComponent implements OnInit {
   ngOnInit() {
   }
 
+  mensaje="";
   vehiculo = {
     placa:""
+  }
+  mostrarMensaje(textoMensaje){
+    this.mensaje=textoMensaje;
+    setTimeout(() => {
+      this.mensaje= null;
+    }, 3000);
   }
 
   listVehiculos = [];
 
   consultarVehiculoServices() {
-
+    this.mensaje= null;
     var url = 'http://localhost:9091/consultarVehiculos/{placa}'
     url= url.replace('{placa}',this.vehiculo.placa);
     const req = this.http.get(url)
@@ -32,28 +39,28 @@ export class ConsultarVehiculosComponent implements OnInit {
         if(res['_body'] != null && res['_body'] != ""){
           this.listVehiculos = [JSON.parse(res['_body'])];
         }else{
-          this.listVehiculos=[];
-          alert("El vehiculo no se encuentra registrado en el parqueadero actualmente")
+          //this.listVehiculos=[];
+          this.mostrarMensaje("El vehiculo no se encuentra registrado en el parqueadero actualmente");
         }
       },
       err => {
         let error = JSON.parse(err['_body']);
-        alert("Error tecnico Inesperado: "+error.message)
+        this.mostrarMensaje("Error tecnico Inesperado: "+error.message);
       }
     );
   }
 
   consultarVehiculosServices() {
-
+    this.vehiculo.placa=null;
     var url = 'http://localhost:9091/consultarRegistros'
-    url= url.replace('{placa}',this.vehiculo.placa);
     const req = this.http.get(url)
     .subscribe(
       res => {
         this.listVehiculos = JSON.parse(res['_body']);
       },
       err => {
-        alert("Error tecnico Inesperado")
+        let error = JSON.parse(err['_body']);
+        this.mostrarMensaje("Error tecnico Inesperado: "+error.message);
       }
     );
   }

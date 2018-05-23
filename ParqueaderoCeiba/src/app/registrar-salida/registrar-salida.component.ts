@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Response} from '@angular/http';
 import {map} from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-registrar-salida',
@@ -9,34 +10,46 @@ import {map} from 'rxjs/operators';
 })
 export class RegistrarSalidaComponent implements OnInit {
 
-  constructor( private http: Http) { }
+
+  vehiculo = {
+  }
+  constructor( private http: Http, private _route: ActivatedRoute) { 
+    console.log(this._route.snapshot.paramMap.get('placa'));
+    if(this._route.snapshot.paramMap.get('placa') != null && this._route.snapshot.paramMap.get('placa') != ''){
+      this.vehiculo={
+        'placa':this._route.snapshot.paramMap.get('placa')
+      }
+    }
+  }
 
   ngOnInit() {
   }
 
-
-  vehiculo = {
+  mensaje=null;
+  mostrarMensaje(textoMensaje){
+    this.mensaje=textoMensaje;
+    setTimeout(() => {
+      this.mensaje= null;
+    }, 3000);
   }
+
   hayResultado =false;
 
   registrarSalidaServices() {
-
+    this.mensaje= null;
     var url = 'http://localhost:9091/registrarSalida'
-
     const req = this.http.post(url, this.vehiculo)
     .subscribe(
       res => {
         if(res['_body'] != null && res['_body'] != ""){
           this.hayResultado = true;
           this.vehiculo = JSON.parse(res['_body']);
-          //alert("Monto a factuar es: $"+this.valorFacturado);
-          //this.vehiculo={};
-        }else{
-          alert("El vehiculo no se encuentra registrado actualmente en el parqueadero");
+        }else{          
+          this.mostrarMensaje("El vehiculo no se encuentra registrado actualmente en el parqueadero");
         }
       },
-      err => {
-        alert("Error tecnico Inesperado")
+      err => {        
+        this.mostrarMensaje("Error tecnico Inesperado");
       }
     );
   }
@@ -49,5 +62,4 @@ export class RegistrarSalidaComponent implements OnInit {
   registrarSalida(){
     this.registrarSalidaServices();
   }
-
 }
