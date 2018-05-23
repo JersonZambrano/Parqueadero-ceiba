@@ -24,6 +24,7 @@ import com.parqueadero.services.ParqueaderoBusniess;
  * @author jerson.zambrano
  *
  */
+@CrossOrigin
 @RestController
 public class ParqueaderoServices {
 
@@ -33,7 +34,6 @@ public class ParqueaderoServices {
 	private ParqueaderoBusniess parqueaderoService;
 
 	@Valid
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/registrarIngreso", method = RequestMethod.POST)
 	public Map<String, Boolean> registrarIngreso(@Valid @RequestBody Vehiculo vehiculo) {
 
@@ -48,7 +48,6 @@ public class ParqueaderoServices {
 		return validaciones;
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/registrarSalida", method = RequestMethod.POST)
 	public Vehiculo registrarSalida(@RequestBody Vehiculo vehiculo) {
 		try {
@@ -58,7 +57,6 @@ public class ParqueaderoServices {
 		}
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/consultarVehiculos/{placa}", method = RequestMethod.GET)
 	public Vehiculo consultarVehiculo(@PathVariable("placa") String placa) {
 		try {
@@ -68,7 +66,6 @@ public class ParqueaderoServices {
 		}
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/consultarRegistros", method = RequestMethod.GET)
 	public List<Vehiculo > consultarTotalRegistros() {
 		return parqueaderoService.consultarTotalRegistros(); 
