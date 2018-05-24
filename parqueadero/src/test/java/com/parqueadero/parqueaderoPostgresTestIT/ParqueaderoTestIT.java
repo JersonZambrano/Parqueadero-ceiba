@@ -152,8 +152,7 @@ public class ParqueaderoTestIT {
 		WebElement valorTotal = driver
 				.findElement(By.className("total-pago"));
 		String mensaje = valorTotal.getText();
-		//assertTrue(mensaje!= null);
-		assertTrue(false);
+		assertTrue(mensaje!= null);
 	}
 	
 	
