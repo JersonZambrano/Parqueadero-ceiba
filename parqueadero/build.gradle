@@ -1,6 +1,6 @@
-configurations {
+/*configurations {
     jaxb
-}
+}*/
 buildscript {
 	ext {
 		springBootVersion = '2.1.0.BUILD-SNAPSHOT'
@@ -24,6 +24,7 @@ apply plugin: 'jacoco'
 group = 'com.parqueadero'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
@@ -89,6 +90,8 @@ dependencies {
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('org.postgresql:postgresql')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.41.0'
+	compile group: 'org.seleniumhq.selenium', name: 'selenium-support', version: '3.12.0'
 	/*compile(files(genJaxb.classesDir).builtBy(genJaxb))
     jaxb "com.sun.xml.bind:jaxb-xjc:2.1.7"*/
 }

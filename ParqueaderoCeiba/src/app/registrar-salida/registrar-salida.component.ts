@@ -30,7 +30,7 @@ export class RegistrarSalidaComponent implements OnInit {
     this.mensaje=textoMensaje;
     setTimeout(() => {
       this.mensaje= null;
-    }, 3000);
+    }, 100000);
   }
 
   hayResultado =false;

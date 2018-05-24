@@ -8,3 +8,7 @@
 .total-pago{
   color: red;
 }
+
+[hidden] {
+  display: none !important;
+}

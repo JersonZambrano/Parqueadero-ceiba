@@ -22,8 +22,8 @@
         </div>
       </div>
 
-      <div *ngIf="hayResultado">
-        <div class="formulario-registro col-xs-12 col-sm-12 col-lg-12 " *ngIf ="vehiculo.tipoVehiculo != null">
+      <div [hidden]="!hayResultado">
+        <div class="formulario-registro col-xs-12 col-sm-12 col-lg-12 " >
           <div class="row">
             <div class="col-xs-12 col-sm-6 col-lg-6">
               <dt>
@@ -47,7 +47,7 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-lg-6" >
               <dt>
-                <label class="total-pago"> Valor a pagar: {{vehiculo.valorTotal}}</label>
+                <label> Valor a pagar: <label class="total-pago">{{vehiculo.valorTotal}}</label></label>
               </dt>
             </div>
           </div>
