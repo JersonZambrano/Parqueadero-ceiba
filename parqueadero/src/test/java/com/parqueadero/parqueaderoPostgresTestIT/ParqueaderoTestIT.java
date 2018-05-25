@@ -106,7 +106,7 @@ public class ParqueaderoTestIT {
 				.findElement(By.xpath("/html/body/app-root/app-registrar-parqueadero/div/div[3]/form/div[3]/button"));
 		botonRegistrar2.click();
 
-		WebDriverWait wait2 = new WebDriverWait(driver, 2);
+		WebDriverWait wait2 = new WebDriverWait(driver, 1);
 		WebElement alertaModal2 = driver
 				.findElement(By.xpath("/html/body/app-root/app-registrar-parqueadero/div/app-alert-modal"));
 		wait2.until(ExpectedConditions.visibilityOf(alertaModal2));
