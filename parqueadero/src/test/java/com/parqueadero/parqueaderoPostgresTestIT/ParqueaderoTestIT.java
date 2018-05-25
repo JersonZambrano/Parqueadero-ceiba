@@ -154,7 +154,7 @@ public class ParqueaderoTestIT {
 				.findElement(By.xpath("/html/body/app-root/app-registrar-salida/div/div[3]/form/div/div[2]/button"));
 		botonSalir.click();
 
-		WebDriverWait wait2 = new WebDriverWait(driver, 2);
+		WebDriverWait wait2 = new WebDriverWait(driver, 1);
 		WebElement panelResultado = driver
 				.findElement(By.xpath("/html/body/app-root/app-registrar-salida/div/div[3]/form/div[2]"));
 		wait2.until(ExpectedConditions.visibilityOf(panelResultado));
@@ -185,7 +185,7 @@ public class ParqueaderoTestIT {
 				.findElement(By.xpath("/html/body/app-root/app-registrar-salida/div/div[3]/form/div/div[2]/button"));
 		botonSalir.click();
 
-		WebDriverWait wait = new WebDriverWait(driver, 2);
+		WebDriverWait wait = new WebDriverWait(driver, 1);
 		WebElement alertMensaje = driver
 				.findElement(By.xpath("/html/body/app-root/app-registrar-salida/div/app-alert-modal"));
 		wait.until(ExpectedConditions.visibilityOf(alertMensaje));
@@ -221,7 +221,7 @@ public class ParqueaderoTestIT {
 				.findElement(By.xpath("/html/body/app-root/app-registrar-parqueadero/div/div[3]/form/div[3]/button"));
 		botonRegistrar.click();
 
-		WebDriverWait wait = new WebDriverWait(driver, 2);
+		WebDriverWait wait = new WebDriverWait(driver, 1);
 		WebElement alertaModal = driver
 				.findElement(By.xpath("/html/body/app-root/app-registrar-parqueadero/div/app-alert-modal"));
 		wait.until(ExpectedConditions.visibilityOf(alertaModal));
