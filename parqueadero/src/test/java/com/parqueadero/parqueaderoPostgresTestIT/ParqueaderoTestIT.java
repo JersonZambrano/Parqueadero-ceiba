@@ -249,66 +249,12 @@ public class ParqueaderoTestIT {
 	
 	
 
-	/**
-	 * prueba que se encarga de verificar el registrar salida para un vehiculo que
-	 * no se encuntra registrado
-	 */
-	@Test
-	public void registrarConsultarRetirarVehiculo() {
-
-		String placa = generarStringRando();
-		
-		WebElement botonRegistrarNav = driver.findElement(By.xpath("/html/body/app-root/div[1]/span[1]"));
-		botonRegistrarNav.click();
-
-		WebElement placaElement = driver.findElement(
-				By.xpath("/html/body/app-root/app-registrar-parqueadero/div/div[3]/form/div[1]/div/input"));
-		placaElement.sendKeys(placa);
-
-		WebElement tipoVehiculoElement = driver.findElement(
-				By.xpath("/html/body/app-root/app-registrar-parqueadero/div/div[3]/form/div[2]/div/select"));
-		tipoVehiculoElement.sendKeys("CARRO");
-
-		WebElement botonRegistrar = driver
-				.findElement(By.xpath("/html/body/app-root/app-registrar-parqueadero/div/div[3]/form/div[3]/button"));
-		botonRegistrar.click();
-
-		WebDriverWait wait = new WebDriverWait(driver, 2);
-		WebElement alertaModal = driver
-				.findElement(By.xpath("/html/body/app-root/app-registrar-parqueadero/div/app-alert-modal"));
-		wait.until(ExpectedConditions.visibilityOf(alertaModal));
-		
-		// busca el veh�culo
-		WebElement botonSalirNav = driver.findElement(By.xpath("/html/body/app-root/div[1]/span[3]"));
-		botonSalirNav.click();
-		
-		WebElement placaSalirElement = driver
-				.findElement(By.xpath("/html/body/app-root/app-consultar-vehiculos/div/div[4]/form/div[1]/div/input"));
-		placaSalirElement.sendKeys(placa);
-
-		WebElement botonConsulta = driver.findElement(By.className("btn-primary"));
-		botonConsulta.click();
-		
-		WebDriverWait wait2 = new WebDriverWait(driver, 2);
-		WebElement tablaElement = driver
-				.findElement(By.xpath("/html/body/app-root/app-consultar-vehiculos/div/div[4]/form/div[3]"));
-		wait2.until(ExpectedConditions.visibilityOf(tablaElement));
-		
-		
-		
-		
-		WebElement valorPlaca = driver.findElement(By.xpath("//*[@id=\"tablaRegistros\"]/tbody/tr/td[2]"));
-		
-		assertEquals(valorPlaca.getText(), placa);
-	}
-	
-	
 //	/**
 //	 * prueba que se encarga de verificar el registrar salida para un vehiculo que
 //	 * no se encuntra registrado
 //	 */
 //	@Test
-//	public void registrarYconsultarYsacarVehiculoTest() {
+//	public void registrarConsultarRetirarVehiculo() {
 //
 //		String placa = generarStringRando();
 //		
@@ -348,11 +294,15 @@ public class ParqueaderoTestIT {
 //				.findElement(By.xpath("/html/body/app-root/app-consultar-vehiculos/div/div[4]/form/div[3]"));
 //		wait2.until(ExpectedConditions.visibilityOf(tablaElement));
 //		
+//		
+//		
+//		
 //		WebElement valorPlaca = driver.findElement(By.xpath("//*[@id=\"tablaRegistros\"]/tbody/tr/td[2]"));
 //		
 //		assertEquals(valorPlaca.getText(), placa);
 //	}
-//	
+	
+
 	
 	@AfterClass
 	public static void cerrarDriver() {
