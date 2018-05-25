@@ -155,7 +155,7 @@ public class ParqueaderoTestIT {
 				.findElement(By.xpath("/html/body/app-root/app-registrar-salida/div/div[3]/form/div/div[2]/button"));
 		botonSalir.click();
 
-		WebDriverWait wait2 = new WebDriverWait(driver, 1);
+		WebDriverWait wait2 = new WebDriverWait(driver, 2);
 		WebElement panelResultado = driver
 				.findElement(By.xpath("/html/body/app-root/app-registrar-salida/div/div[3]/form/div[2]"));
 		wait2.until(ExpectedConditions.visibilityOf(panelResultado));
