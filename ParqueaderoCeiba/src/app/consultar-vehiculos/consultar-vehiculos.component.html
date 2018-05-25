@@ -1,16 +1,15 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="row">
   <div class="col-md-3"></div>
-  <app-alert-modal class="col-md-6 col-md-offset-3" [mensaje]="mensaje"></app-alert-modal>
+  <app-alert-modal class="col-md-6 col-md-offset-3" [mensaje]="mensaje" [tipoMensaje]="tipoMensaje" ></app-alert-modal>
   <div class="col-md-3"></div>
   <div class="col-md-3"></div>
   <div class="formulario-registro col-md-6 col-md-offset-3 " >
-    <h3 class="col-ms col-sm-12">Consultar Vehiculos</h3>
+    <h3 class="col-ms col-sm-12">Consultar Vehículos</h3>
     <form #formRegistro="ngForm">
-
       <div class="col-ms-12 col-sm-12">
         <dt>
-          <label> Placa Vehiculo: </label>
+          <label> Placa vehículo: </label>
         </dt>
         <div>
           <input type="text" [(ngModel)]="vehiculo.placa" required 
@@ -18,20 +17,18 @@
                  formControlname="placa">
         </div>
       </div>
-
       <br>
       <div class="text-right col-ms-12 col-sm-12">
-        <button class="btn btn-primary" (click)="consultarVehiculo()" [disabled]="!formRegistro.valid "> Consultar Vehiculo </button>
+        <button class="btn btn-primary" (click)="consultarVehiculo()" [disabled]="!formRegistro.valid "> Consultar Vehículo </button>
       </div>
       <br>
       <br>
 
-      <div class="table-responsive col-ms col-sm-12" *ngIf="listVehiculos.length>0">
-        <h6 class="col-ms col-sm-12" >Vehiculos actuales</h6>
+      <div class="table-responsive col-ms col-sm-12" [hidden]="!listVehiculos.length>0">
+        <h6 class="col-ms col-sm-12" >Vehículos actuales</h6>
         <table id="tablaRegistros"
                class="table table-bordered table-hover table-condensed todo-list dataTable"
                role="grid" aria-describedby="example2_info">
-
           <thead>
             <tr role="row">
               <th class="sorting" tabindex="0" aria-controls="example2"
@@ -39,7 +36,7 @@
               <th class="sorting" tabindex="0" aria-controls="example2"
                   rowspan="1" colspan="1">Placa</th>
               <th class="sorting" tabindex="0" aria-controls="example2"
-                  rowspan="1" colspan="1">Tipo de vehiculo</th>
+                  rowspan="1" colspan="1">Tipo de vehículo</th>
               <th class="sorting" tabindex="0" aria-controls="example2"
                   rowspan="1" colspan="1">Cilindraje</th>
               <th class="sorting" tabindex="0" aria-controls="example2"
@@ -54,12 +51,12 @@
               <td>{{v.tipoVehiculo}}</td>
               <td>{{v.cilindraje}}</td>
               <td>{{v.fechaIngreso | date : "dd/MM/yyyy - HH:mm"}}</td>
-              <td><span [routerLink]="['/registrarSalida',v.placa]" routerLinkActive="active" class="btn btn-success btn-sm"> Retirar vehiculo </span></td>
+              <td><span [routerLink]="['/registrarSalida',v.placa]" routerLinkActive="active" class="btn btn-success btn-sm"> Retirar vehículo </span></td>
             </tr>
           </tbody>
         </table>
         <div class="text-right col-ms-12 col-sm-12">
-          <button class="btn btn-light" (click)="consultarVehiculosServices()">Refrescar tabala </button>
+          <button class="btn btn-light" (click)="consultarVehiculosServices()">Actualizar tabla</button>
         </div>
       </div>
       <br>

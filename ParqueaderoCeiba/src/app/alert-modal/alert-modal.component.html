@@ -1,5 +1,10 @@
 <br>
-<div class="alert alert-primary" role="alert" *ngIf="mensaje" >
+<div class="alert" role="alert" *ngIf="mensaje" 
+     [ngClass]="{
+                'alert-success':tipoMensaje == 'ok',
+                'alert-info':tipoMensaje == 'info',
+                'alert-warning':tipoMensaje == 'warn'
+                }">
 
   <h5>{{mensaje}}</h5>
 </div>

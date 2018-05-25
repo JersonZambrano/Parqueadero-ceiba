@@ -1,15 +1,15 @@
 <div class="row">
   <div class="col-md-3"></div>
-  <app-alert-modal class="col-md-6 col-md-offset-3" [mensaje]="mensaje"></app-alert-modal>
+  <app-alert-modal class="col-md-6 col-md-offset-3" [mensaje]="mensaje" [tipoMensaje]="tipoMensaje" ></app-alert-modal>
   <div class="col-md-3"></div>
   <div class="formulario-registro col-md-6 col-md-offset-3 " >
 
-    <h3 class="col-ms col-sm-12">Registrar Ingreso Vehiculos</h3>
+    <h3 class="col-ms col-sm-12">Registrar Ingreso Vehículos</h3>
     <form #formRegistro="ngForm" >
 
       <div class="col-ms-12 col-sm-12">
         <dt>
-          <label> Placa Vehiculo: </label>
+          <label> Placa vehículo: </label>
         </dt>
         <div>
           <input type="text" [(ngModel)]="vehiculo.placa" required 
@@ -20,7 +20,7 @@
 
       <div class="col-ms-12 col-sm-12">
         <dt>
-          <label> Tipo de Vehiculo: </label>
+          <label> Tipo de vehículo: </label>
         </dt>
         <div>
           <!--input type="text" required [(ngModel)]="vehiculo.tipoVehiculo" 
@@ -47,28 +47,9 @@ formControlname="tipoVehiculo"-->
 
       <br>
       <div class="text-right col-ms-12 col-sm-12">
-        <button class="btn btn-primary" (click)="registrarVehiculo()" [disabled]="!formRegistro.valid"> Registrar Vehiculo </button>
+        <button class="btn btn-primary" (click)="registrarVehiculo()" [disabled]="!formRegistro.valid"> Registrar Vehículo </button>
       </div>
     </form>
   </div>
 
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
-        </div>
-        <div class="modal-body">
-          <p>Some text in the modal.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
 </div>

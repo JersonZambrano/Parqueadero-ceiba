@@ -16,14 +16,17 @@ export class ConsultarVehiculosComponent implements OnInit {
   ngOnInit() {
   }
 
-  mensaje="";
+  mensaje=null;
+  tipoMensaje=null;
   vehiculo = {
     placa:""
   }
-  mostrarMensaje(textoMensaje){
+  mostrarMensaje(textoMensaje,tipo){
     this.mensaje=textoMensaje;
+    this.tipoMensaje=tipo;
     setTimeout(() => {
       this.mensaje= null;
+      
     }, 3000);
   }
 
@@ -40,12 +43,12 @@ export class ConsultarVehiculosComponent implements OnInit {
           this.listVehiculos = [JSON.parse(res['_body'])];
         }else{
           //this.listVehiculos=[];
-          this.mostrarMensaje("El vehiculo no se encuentra registrado en el parqueadero actualmente");
+          this.mostrarMensaje("El vehículo no se encuentra registrado en el parqueadero actualmente",'info');
         }
       },
       err => {
         let error = JSON.parse(err['_body']);
-        this.mostrarMensaje("Error tecnico Inesperado: "+error.message);
+        this.mostrarMensaje("Error técnico inesperado: "+error.message,'warn');
       }
     );
   }
@@ -60,7 +63,7 @@ export class ConsultarVehiculosComponent implements OnInit {
       },
       err => {
         let error = JSON.parse(err['_body']);
-        this.mostrarMensaje("Error tecnico Inesperado: "+error.message);
+        this.mostrarMensaje("Error técnico inesperado: "+error.message,'warn');
       }
     );
   }

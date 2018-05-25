@@ -8,6 +8,7 @@ import { Component, OnInit , Input} from '@angular/core';
 export class AlertModalComponent implements OnInit {
 
   @Input() mensaje: string;
+  @Input() tipoMensaje: string;
   constructor() { }
 
   ngOnInit() {

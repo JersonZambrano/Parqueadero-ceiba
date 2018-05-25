@@ -1,14 +1,14 @@
 <div class="row">
   <div class="col-md-3"></div>
-  <app-alert-modal class="col-md-6 col-md-offset-3" [mensaje]="mensaje"></app-alert-modal>
+  <app-alert-modal class="col-md-6 col-md-offset-3" [mensaje]="mensaje" [tipoMensaje]="tipoMensaje" ></app-alert-modal>
   <div class="col-md-3"></div>
   <div class="formulario-registro col-md-6 col-md-offset-3 " >
-    <h3 class="col-ms col-sm-12">Registrar Salida Vehiculo</h3>
+    <h3 class="col-ms col-sm-12">Registrar Salida Vehículo</h3>
     <form #formRegistro="ngForm" >
       <div *ngIf="!hayResultado">
         <div class="col-ms-12 col-sm-12">
           <dt>
-            <label> Placa Vehiculo: </label>
+            <label> Placa Vehículo: </label>
           </dt>
           <div>
             <input type="text" [(ngModel)]="vehiculo.placa" required 
@@ -18,7 +18,7 @@
         </div>
         <br>
         <div class="text-right col-ms-12 col-sm-12">
-          <button class="btn btn-primary" (click)="registrarSalida()" [disabled]="!formRegistro.valid"> Facturar salidad vehiculo </button>
+          <button class="btn btn-primary" (click)="registrarSalida()" [disabled]="!formRegistro.valid"> Facturar salida vehículo </button>
         </div>
       </div>
 
@@ -27,12 +27,12 @@
           <div class="row">
             <div class="col-xs-12 col-sm-6 col-lg-6">
               <dt>
-                <label> Placa Vehiculo: {{vehiculo.placa}}</label>
+                <label> Placa Vehículo: {{vehiculo.placa}}</label>
               </dt>
             </div>
             <div class="col-xs-12 col-sm-6 col-lg-6">
               <dt>
-                <label> Tipo de vehiculo: {{vehiculo.tipoVehiculo}}</label>
+                <label> Tipo de vehículo: {{vehiculo.tipoVehiculo}}</label>
               </dt>
             </div>
             <div class="col-xs-12 col-sm-6 col-lg-6">

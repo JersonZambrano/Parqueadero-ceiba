@@ -26,14 +26,15 @@ export class RegistrarSalidaComponent implements OnInit {
   }
 
   mensaje=null;
-  mostrarMensaje(textoMensaje){
+  tipoMensaje=null;
+  hayResultado =false;
+  mostrarMensaje(textoMensaje,tipo){
     this.mensaje=textoMensaje;
+    this.tipoMensaje=tipo;
     setTimeout(() => {
       this.mensaje= null;
     }, 100000);
   }
-
-  hayResultado =false;
 
   registrarSalidaServices() {
     this.mensaje= null;
@@ -45,11 +46,11 @@ export class RegistrarSalidaComponent implements OnInit {
           this.hayResultado = true;
           this.vehiculo = JSON.parse(res['_body']);
         }else{          
-          this.mostrarMensaje("El vehiculo no se encuentra registrado actualmente en el parqueadero");
+          this.mostrarMensaje("El vehículo no se encuentra registrado actualmente en el parqueadero",'info');
         }
       },
       err => {        
-        this.mostrarMensaje("Error tecnico Inesperado");
+        this.mostrarMensaje("Error técnico inesperado",'warn');
       }
     );
   }

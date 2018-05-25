@@ -16,10 +16,11 @@ export class RegistrarParqueaderoComponent implements OnInit {
   }
 
   tipoVehiculo = ['CARRO','MOTO'];
-  //tipoVehiculo : ["CARRO","MOTO"]
   mensaje=null;
-  mostrarMensaje(textoMensaje){
+  tipoMensaje=null;
+  mostrarMensaje(textoMensaje,tipo){
     this.mensaje=textoMensaje;
+    this.tipoMensaje=tipo;
     setTimeout(() => {
       this.mensaje= null;
     }, 3000);
@@ -37,18 +38,18 @@ export class RegistrarParqueaderoComponent implements OnInit {
         console.log(res);
         var validaciones = JSON.parse(res['_body']);
         if(validaciones['VALIDACION_DOMINGO_LUNES'] == false){    
-          this.mostrarMensaje("El vehiculo no puede ingresar estos dias");
+          this.mostrarMensaje("El vehículo no puede ingresar estos días",'info');
         }else if(validaciones['VALIDACION_DISPONIBILIDAD']  == false){     
-          this.mostrarMensaje("No hay disponibilidad en el parqueadero en estos momentos");
+          this.mostrarMensaje("No hay disponibilidad en el parqueadero en estos momentos",'info');
         }else if(validaciones['VALIDACION_YA_REGISTRADO']  == false){    
-          this.mostrarMensaje("El vehiculo ya se encuentra en el parqueadero");
+          this.mostrarMensaje("El vehículo ya se encuentra en el parqueadero",'info');
         }else{    
-          this.mostrarMensaje("El vehiculo fue registrado con exito");
+          this.mostrarMensaje("El vehículo fue registrado con éxito",'ok');
         }
         this.vehiculo={};
       },
       err => {  
-        this.mostrarMensaje("Error tecnico Inesperado");
+        this.mostrarMensaje("Error técnico inesperado",'warn');
       }
     );
   }
